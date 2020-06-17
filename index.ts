@@ -1,6 +1,18 @@
 import * as fs from "fs/promises";
 import { Actor } from "./IActor";
 
+const keywords = [
+  "Attributes",
+  "Skills",
+  "Pace",
+  "Parry",
+  "Toughness",
+  "Hindrances",
+  "Edges",
+  "Gear",
+  "Special Abilities",
+];
+
 buildActorsFromDir("testdata").then((actors) => {
   actors.map((actor) => {
     //console.log(JSON.stringify(actor))
@@ -16,7 +28,9 @@ async function buildActorsFromDir(dirName) {
     actors.push(
       await buildActor(
         fileNames[fN].split(".")[0],
-        await (await fs.readFile(`${dirName}\\${fileNames[fN]}`)).toString()
+        (await fs.readFile(`${dirName}\\${fileNames[fN]}`))
+          .toString()
+          .replace(/(\r\n|\n|\r)/gm, " ")
       )
     );
   }
@@ -30,7 +44,10 @@ async function buildActor(fileName, statblock) {
   actor.description = await buildActorDescription(statblock);
   actor.attributes = await buildActorAttributes(statblock);
   actor.skills = await buildActorSkills(statblock);
-  actor.derivedStats = await buildActorDerivedStats(statblock);
+  //actor.derivedStats = await buildActorDerivedStats(statblock);
+  actor.pace = await buildActorPace(statblock);
+  actor.parry = await buildActorParry(statblock);
+  actor.toughness = await buildActorToughness(statblock);
   actor.hindrances = await buildActorHindrances(statblock);
   actor.edges = await buildActorEdges(statblock);
   //actor.powers = await buildActorPowers(statblock);
@@ -44,10 +61,7 @@ async function buildActorGear(statblock) {
   if (startIndex == -1) {
     return gear;
   }
-  let endIndex = statblock.indexOf("Special Abilities: ");
-  if (endIndex == -1) {
-    endIndex = statblock.length - 1;
-  }
+  let endIndex = getNextKeywordIndex(startIndex, statblock);
   let gearSection = statblock.slice(startIndex, endIndex);
 
   console.log(gearSection);
@@ -56,21 +70,14 @@ async function buildActorGear(statblock) {
 
 async function buildActorEdges(statblock) {
   let edges: string[] = [];
-  let startIndex = statblock.indexOf("Edges: ");
-  let endIndex = statblock.indexOf("Gear: ");
-
-  if (endIndex == -1) {
-    //try next section
-    endIndex = statblock.indexOf("Special Abilities: ");
-    if (endIndex == -1) {
-      //Edges is the last section, try end of file
-      endIndex = statblock.length - 1;
-    }
+  let startIndex = statblock.indexOf("Edges: ") + 7;
+  if (startIndex == -1) {
+    return edges; //no edges present
   }
-  let edgeList = statblock
-    .slice(startIndex, endIndex)
-    .split(": ")[1]
-    .replace(/(\r\n|\n|\r)/gm, " ");
+
+  let endIndex = getNextKeywordIndex(startIndex, statblock);
+
+  let edgeList = statblock.slice(startIndex, endIndex);
   if (edgeList[0] != "—") {
     edges = edgeList.split(",").map((edge) => edge.trim());
   }
@@ -81,19 +88,15 @@ async function buildActorHindrances(statblock) {
   let hindranceDict = JSON.parse((await fs.readFile("./h.json")).toString());
   let hindrances = {};
 
-  let startIndex = statblock.indexOf("Hindrances: ");
+  let startIndex = statblock.indexOf("Hindrances: ") + 12;
   if (startIndex == -1) {
     //no Hindrances exist
     return hindrances;
   }
-  let endIndex = statblock.indexOf("Edges: ");
-
-  //Interface Zero goes Edges => Hindrances instead of Hindrances => Edges
+  let endIndex = getNextKeywordIndex(startIndex, statblock);
 
   let hindranceList = statblock
     .slice(startIndex, endIndex)
-    .replace(/(\r\n|\n|\r)/gm, " ")
-    .split(": ")[1]
     .split(",")
     .map((h) => h.trim());
 
@@ -118,50 +121,46 @@ async function buildActorHindrances(statblock) {
   return hindrances;
 }
 
-async function buildActorDerivedStats(statblock) {
-  let derivedStats = {
-    pace: 0,
-    parry: 0,
-    toughness: {
-      value: 0,
-      armor: 0,
-    },
+async function buildActorPace(statblock) {
+  let pace = 0;
+  let startIndex = statblock.indexOf("Pace: ") + 6;
+  let endIndex = getNextKeywordIndex(startIndex, statblock);
+  pace = parseInt(statblock.slice(startIndex, endIndex).trim());
+  return pace;
+}
+async function buildActorParry(statblock) {
+  let parry = 0;
+  let startIndex = statblock.indexOf("Parry: ") + 7;
+  let endIndex = getNextKeywordIndex(startIndex, statblock);
+  parry = parseInt(statblock.slice(startIndex, endIndex).trim());
+  return parry;
+}
+async function buildActorToughness(statblock) {
+  let toughness = {
+    value: 0,
+    armor: 0,
   };
-  let startIndex = statblock.indexOf("Pace:");
-  let endIndex = statblock.indexOf("Hindrances:");
-  let derStats = statblock
-    .slice(startIndex, endIndex)
-    .replace(/(\r\n|\n|\r)/gm, " ")
-    .split(";");
-
-  derivedStats["pace"] = parseInt(derStats[0].split(": ")[1]);
-  derivedStats["parry"] = parseInt(derStats[1].split(": ")[1]);
-
-  //Toughness could have () armor value or it could not
-  derivedStats["toughness"]["value"] = parseInt(
-    derStats[2].split(": ")[1].split(" (")[0]
-  );
-
-  //check if armor is present
-  if (derStats[2].split(": ")[1].split(" (")[1] != undefined) {
-    derivedStats["toughness"]["armor"] = parseInt(
-      derStats[2].split(": ")[1].split(" (")[1].split(")")[0]
-    );
+  let startIndex = statblock.indexOf("Toughness: ") + 10;
+  let endIndex = getNextKeywordIndex(startIndex, statblock);
+  let rawTough = statblock.slice(startIndex, endIndex);
+  if (rawTough.split(" (")[1] != undefined) {
+    toughness.value = parseInt(rawTough.split(" (")[0]);
+    toughness.value = parseInt(rawTough.split("(")[1].split(")")[0]);
   } else {
-    derivedStats["toughness"]["armor"] = 0;
+    toughness.value = parseInt(rawTough);
+    toughness.armor = 0;
   }
-  return derivedStats;
+
+  return toughness;
 }
 
 async function buildActorSkills(statblock) {
   let skills = {};
   let startIndex = statblock.indexOf("Skills: ") + 8;
-  let endIndex = statblock.indexOf("Pace: ");
+  //let endIndex = statblock.indexOf("Pace: ");
+  let endIndex = getNextKeywordIndex(startIndex, getNextKeywordIndex);
 
-  let skillList: String[] = statblock
-    .slice(startIndex, endIndex)
-    .replace(/(\r\n|\n|\r)/gm, " ")
-    .split(",");
+  let skillList: String[] = statblock.slice(startIndex, endIndex).split(",");
   skillList = skillList.map((skill) => skill.trim());
   skillList.map((skill) => {
     let skillName = skill.split(" d")[0];
@@ -178,7 +177,8 @@ async function buildActorSkills(statblock) {
 async function buildActorAttributes(statblock) {
   let attributes = {};
   let startIndex = statblock.indexOf("Attributes: ") + 12; //12 is Attributes: count
-  let endIndex = statblock.indexOf("Skills: ");
+  //let endIndex = statblock.indexOf("Skills: ");
+  let endIndex = getNextKeywordIndex(startIndex, statblock);
   let attrList: String[] = statblock
     .slice(startIndex, endIndex)
     .replace(/(\r\n|\n|\r)/gm, " ")
@@ -199,8 +199,28 @@ async function buildActorAttributes(statblock) {
 
 async function buildActorDescription(statblock: string) {
   let desc: string = "";
-  let endIndex = statblock.indexOf("Attributes:");
-  desc = statblock.slice(0, endIndex);
-  desc = desc.replace(/(\r\n|\n|\r)/gm, " ").trim();
+  //let endIndex = statblock.indexOf("Attributes:");
+  let endIndex = getNextKeywordIndex(0, statblock); //description is always the first thing
+  desc = statblock.slice(0, endIndex).trim();
   return desc;
+}
+
+function getNextKeywordIndex(startingIndex, statblock) {
+  let charAtList = [];
+  keywords.map((keyword) => {
+    charAtList.push(statblock.indexOf(keyword, startingIndex));
+  });
+
+  //remove missing sections
+  charAtList.map((keywordIndex) => {
+    if (keywordIndex == -1) {
+      //Set endIndex to End of File if no Keyword sections left
+      return statblock.length - 1;
+    } else {
+      return keywordIndex;
+    }
+  });
+
+  let nextKeywordIndex = Math.min(...charAtList);
+  return nextKeywordIndex;
 }

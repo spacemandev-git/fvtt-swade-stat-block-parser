@@ -15,13 +15,11 @@ export interface Actor {
       mod: number;
     };
   };
-  derivedStats?: {
-    pace: number;
-    parry: number;
-    toughness: {
-      value: number;
-      armor: number;
-    };
+  pace?: number;
+  parry?: number;
+  toughness?: {
+    value: number;
+    armor: number;
   };
   hindrances?: {
     [hindranceName: string]: {
