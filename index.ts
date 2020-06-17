@@ -12,6 +12,7 @@ async function buildActorsFromDir(dirName) {
   let fileNames = await fs.readdir(dirName);
   let actors: Actor[] = [];
   for (let fN in fileNames) {
+    console.log(`Processing file: ${fileNames[fN]}`);
     actors.push(
       await buildActor(
         fileNames[fN].split(".")[0],
@@ -32,7 +33,25 @@ async function buildActor(fileName, statblock) {
   actor.derivedStats = await buildActorDerivedStats(statblock);
   actor.hindrances = await buildActorHindrances(statblock);
   actor.edges = await buildActorEdges(statblock);
+  //actor.powers = await buildActorPowers(statblock);
+  //actor.gear = await buildActorGear(statblock);
   return actor;
+}
+
+async function buildActorGear(statblock) {
+  let gear = {};
+  let startIndex = statblock.indexOf("Gear: ");
+  if (startIndex == -1) {
+    return gear;
+  }
+  let endIndex = statblock.indexOf("Special Abilities: ");
+  if (endIndex == -1) {
+    endIndex = statblock.length - 1;
+  }
+  let gearSection = statblock.slice(startIndex, endIndex);
+
+  console.log(gearSection);
+  return gear;
 }
 
 async function buildActorEdges(statblock) {
@@ -68,6 +87,8 @@ async function buildActorHindrances(statblock) {
     return hindrances;
   }
   let endIndex = statblock.indexOf("Edges: ");
+
+  //Interface Zero goes Edges => Hindrances instead of Hindrances => Edges
 
   let hindranceList = statblock
     .slice(startIndex, endIndex)

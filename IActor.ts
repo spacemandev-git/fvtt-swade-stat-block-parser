@@ -31,7 +31,12 @@ export interface Actor {
     };
   };
   edges?: string[];
-  gear?: string[];
+  gear?: {
+    [gearName: string]: {
+      name: string;
+      description: string;
+    };
+  };
   special_abilities?: {
     [abilityName: string]: string;
   };
