@@ -1,0 +1,16 @@
+{
+  "name": "statblock-parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "update": "npm uninstall foundry-pc-types && npm install --save-dev gitlab:foundry-projects/foundry-pc/foundry-pc-types"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^14.0.13",
+    "foundry-pc-types": "gitlab:foundry-projects/foundry-pc/foundry-pc-types"
+  }
+}
