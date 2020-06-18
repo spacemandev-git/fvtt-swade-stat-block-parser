@@ -1,17 +1,26 @@
 import * as fs from "fs/promises";
 import { Actor } from "./IActor";
+import { start } from "repl";
+import { stringify } from "querystring";
 
-const keywords = [
-  "Attributes",
-  "Skills",
-  "Pace",
-  "Parry",
-  "Toughness",
-  "Hindrances",
-  "Edges",
-  "Gear",
-  "Special Abilities",
+let coreKeywords = [
+  "Attributes:",
+  "Skills:",
+  "Pace:",
+  "Parry:",
+  "Toughness:",
+  "Hindrances:",
+  "Edges:",
+  "Powers:",
+  "Powers (", //should cover all Aracne Backgrounds when multiple are present
+  "Gear:",
+  "Special Abilities:",
 ];
+
+let riftsKeywords = ["Cybernetic Systems:"];
+let swdKeywords = ["Charisma:"];
+let otherKeywords = ["Booy:"];
+let keywords = coreKeywords.concat(riftsKeywords, swdKeywords, otherKeywords);
 
 buildActorsFromDir("testdata").then((actors) => {
   actors.map((actor) => {
@@ -44,34 +53,120 @@ async function buildActor(fileName, statblock) {
   actor.description = await buildActorDescription(statblock);
   actor.attributes = await buildActorAttributes(statblock);
   actor.skills = await buildActorSkills(statblock);
-  //actor.derivedStats = await buildActorDerivedStats(statblock);
   actor.pace = await buildActorPace(statblock);
   actor.parry = await buildActorParry(statblock);
   actor.toughness = await buildActorToughness(statblock);
   actor.hindrances = await buildActorHindrances(statblock);
   actor.edges = await buildActorEdges(statblock);
-  //actor.powers = await buildActorPowers(statblock);
-  //actor.gear = await buildActorGear(statblock);
+  actor.gear = await buildActorGear(statblock);
+  actor.powers = await buildActorPowers(actor.edges, statblock);
+
+  //actor.special_abilities = await buildActorSpecials(statblock)
+
   return actor;
+}
+
+//if just powers, figure out which AB it belongs to based on Arcane Background Edge
+async function buildActorPowers(edges, statblock) {
+  let arcaneList = {};
+  //parse edges to see what Arcane Backgrounds exist
+  let arcaneBackroundList = [];
+  edges.map((edge) => {
+    if (edge.indexOf("Arcane Background") >= 0) {
+      arcaneBackroundList.push(edge.split("(")[1].split(")")[0]);
+    }
+  });
+
+  if (arcaneBackroundList.length == 0) {
+    //no powers
+    return;
+  }
+
+  if (arcaneBackroundList.length == 1) {
+    //section will just be labeled "Powers: "
+    let startIndex = statblock.indexOf("Powers: ") + 8;
+    let endIndex = getNextKeywordIndex(startIndex, statblock);
+    let powersSection = statblock.slice(startIndex, endIndex);
+    let powersList = powersSection
+      .split(".")[0]
+      .split(",")
+      .map((el) => el.trim());
+    //sometimes last power has the word 'and' in it
+    if (powersList[powersList.length - 1].indexOf("and") >= 0) {
+      powersList[powersList.length - 1] = powersList[powersList.length - 1]
+        .split("and")[1]
+        .trim();
+    }
+
+    let pp_name = powersSection.split(".")[1].trim().split(":")[0];
+    let pp_amt = parseInt(powersSection.split(".")[1].trim().split(":")[1]);
+    arcaneList[arcaneBackroundList[0]] = {
+      list: powersList,
+      pp_name: pp_name,
+      pp_amt: pp_amt,
+    };
+  } else {
+    //for each arcane list, section will be "Powers (AB): "
+    for (let i = 0; i < arcaneBackroundList.length; i++) {
+      let sectionHeader = `Powers (${arcaneBackroundList[i]}):`;
+      let startIndex = statblock.indexOf(sectionHeader) + sectionHeader.length;
+      let endIndex = getNextKeywordIndex(startIndex, statblock);
+      let pSection = statblock.slice(startIndex, endIndex);
+      let pList = pSection
+        .split(".")[0]
+        .split(",")
+        .map((el) => el.trim());
+      if (pList[pList.length - 1].indexOf("and") >= 0) {
+        pList[pList.length - 1] = pList[pList.length - 1]
+          .split("and")[1]
+          .trim();
+      }
+      let pp_name = pSection.split(".")[1].trim().split(":")[0];
+      let pp_amt = parseInt(pSection.split(".")[1].trim().split(":")[1]);
+      arcaneList[arcaneBackroundList[i]] = {
+        list: pList,
+        pp_name: pp_name,
+        pp_amt: pp_amt,
+      };
+    }
+  }
+
+  return arcaneList;
 }
 
 async function buildActorGear(statblock) {
   let gear = {};
-  let startIndex = statblock.indexOf("Gear: ");
-  if (startIndex == -1) {
-    return gear;
+  let startIndex = statblock.indexOf("Gear: ") + 6;
+  if (startIndex == 5) {
+    return gear; // No gear section
   }
   let endIndex = getNextKeywordIndex(startIndex, statblock);
-  let gearSection = statblock.slice(startIndex, endIndex);
+  let gearList = statblock.slice(startIndex, endIndex).split("),");
+  gearList.map((g) => {
+    let gearName = g.split("(")[0].trim();
+    let gearDescription = g.split("(")[1];
 
-  console.log(gearSection);
+    if (gearName.split("×")[1]) {
+      gear[gearName.split("×")[1].trim().slice(0, -1)] = {
+        name: gearName.split("×")[1].trim().slice(0, -1),
+        description: gearDescription,
+        quantity: parseInt(gearName.split("×")[0]),
+      };
+    } else {
+      gear[gearName] = {
+        name: gearName,
+        description: gearDescription,
+        quantity: 1,
+      };
+    }
+  });
   return gear;
 }
 
 async function buildActorEdges(statblock) {
   let edges: string[] = [];
   let startIndex = statblock.indexOf("Edges: ") + 7;
-  if (startIndex == -1) {
+  if (startIndex == 6) {
     return edges; //no edges present
   }
 
@@ -89,7 +184,7 @@ async function buildActorHindrances(statblock) {
   let hindrances = {};
 
   let startIndex = statblock.indexOf("Hindrances: ") + 12;
-  if (startIndex == -1) {
+  if (startIndex == 11) {
     //no Hindrances exist
     return hindrances;
   }
@@ -145,7 +240,7 @@ async function buildActorToughness(statblock) {
   let rawTough = statblock.slice(startIndex, endIndex);
   if (rawTough.split(" (")[1] != undefined) {
     toughness.value = parseInt(rawTough.split(" (")[0]);
-    toughness.value = parseInt(rawTough.split("(")[1].split(")")[0]);
+    toughness.armor = parseInt(rawTough.split("(")[1].split(")")[0]);
   } else {
     toughness.value = parseInt(rawTough);
     toughness.armor = 0;
@@ -158,7 +253,7 @@ async function buildActorSkills(statblock) {
   let skills = {};
   let startIndex = statblock.indexOf("Skills: ") + 8;
   //let endIndex = statblock.indexOf("Pace: ");
-  let endIndex = getNextKeywordIndex(startIndex, getNextKeywordIndex);
+  let endIndex = getNextKeywordIndex(startIndex, statblock);
 
   let skillList: String[] = statblock.slice(startIndex, endIndex).split(",");
   skillList = skillList.map((skill) => skill.trim());
@@ -177,12 +272,8 @@ async function buildActorSkills(statblock) {
 async function buildActorAttributes(statblock) {
   let attributes = {};
   let startIndex = statblock.indexOf("Attributes: ") + 12; //12 is Attributes: count
-  //let endIndex = statblock.indexOf("Skills: ");
   let endIndex = getNextKeywordIndex(startIndex, statblock);
-  let attrList: String[] = statblock
-    .slice(startIndex, endIndex)
-    .replace(/(\r\n|\n|\r)/gm, " ")
-    .split(",");
+  let attrList: String[] = statblock.slice(startIndex, endIndex).split(",");
   attrList = attrList.map((attr) => attr.trim());
   attrList.map((attr) => {
     let attrName = attr.split(" d")[0];
@@ -193,7 +284,6 @@ async function buildActorAttributes(statblock) {
       mod: die.split("+")[1] ? parseInt(die.split("+")[1]) : 0,
     };
   });
-  //console.log(attributes)
   return attributes;
 }
 
@@ -205,14 +295,17 @@ async function buildActorDescription(statblock: string) {
   return desc;
 }
 
-function getNextKeywordIndex(startingIndex, statblock) {
+function getNextKeywordIndex(startingIndex, statblock: string) {
   let charAtList = [];
   keywords.map((keyword) => {
     charAtList.push(statblock.indexOf(keyword, startingIndex));
+    /*     console.log(
+      `Keyword: ${keyword} Index: ${statblock.indexOf(keyword, startingIndex)}`
+    ); */
   });
 
   //remove missing sections
-  charAtList.map((keywordIndex) => {
+  charAtList = charAtList.map((keywordIndex) => {
     if (keywordIndex == -1) {
       //Set endIndex to End of File if no Keyword sections left
       return statblock.length - 1;
