@@ -60,13 +60,30 @@ async function buildActor(fileName, statblock) {
   actor.edges = await buildActorEdges(statblock);
   actor.gear = await buildActorGear(statblock);
   actor.powers = await buildActorPowers(actor.edges, statblock);
-
-  //actor.special_abilities = await buildActorSpecials(statblock)
+  actor.special_abilities = await buildActorSpecials(statblock);
 
   return actor;
 }
 
-//if just powers, figure out which AB it belongs to based on Arcane Background Edge
+async function buildActorSpecials(statblock) {
+  let specials = {};
+  let startIndex = statblock.indexOf("Special Abilities: ") + 19;
+  if (startIndex == 18) {
+    return specials;
+  }
+  let endIndex = getNextKeywordIndex(startIndex, statblock);
+  let specialsSection = statblock.slice(startIndex, endIndex);
+  let specialsList = specialsSection
+    .split("@")
+    .map((el) => el.trim())
+    .slice(1);
+  specialsList.map((el) => {
+    specials[el.split(":")[0].trim()] = el.split(":")[1].trim();
+  });
+
+  return specials;
+}
+
 async function buildActorPowers(edges, statblock) {
   let arcaneList = {};
   //parse edges to see what Arcane Backgrounds exist

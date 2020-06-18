@@ -72,18 +72,18 @@ Damage, AP 6),
 (Range 5/10/20, 5d6
 Mega Damage, LBT).
 Special Abilities:
-Animal Empathy:
+@Animal Empathy:
 Psi-Stalkers have
 an inherent empathy
 with animals. Animals treat them
 as one of their own. This effect can
 be problematic if the animal in
 question is a territorial loner.
-Fast: Psi-Stalkers have Pace +2
+@Fast: Psi-Stalkers have Pace +2
 and increase their Running die
 by one die type (usually a Pace
 8 and d8 run die).
-Psychic Sense: Psi-Stalkers
+@Psychic Sense: Psi-Stalkers
 have the inherent ability
 to detect arcana, as a sense.
 They use the Notice skill
@@ -98,7 +98,7 @@ psychic, magic, or supernatural,
 including invisible and astral beings.
 Psychic Sense doesn’t work inside
 sealed armor or vehicles.
-Psychic Vampire: Psi-Stalkers require
+@Psychic Vampire: Psi-Stalkers require
 a diet of PPE or ISP directly drained
 from a living being. They gain this
 using the Draining PPE/ISP Setting
@@ -117,7 +117,7 @@ Each 5 PPE/ISP drained restores one
 level of Fatigue. Consumed Power
 Points cannot be used to fuel spells
 or psionic powers.
-Racial Enemy: Many Psi-Stalker
+@Racial Enemy: Many Psi-Stalker
 and Simvan tribes have been
 at war for years and will
 generally attack each other

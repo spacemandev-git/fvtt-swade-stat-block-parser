@@ -89,7 +89,7 @@ Parry, Reach 1, +2 Fighting, +2 Spellcasting,
 of Denial (+12 Toughness vs. damaging
 magical powers and effects).
 Special Abilities:
-Bind the Summoned: A Shifter can
+@Bind the Summoned: A Shifter can
 bind summoned beings to their service
 for an extended period of time. He does
 this by reducing his maximum PPE by
@@ -101,42 +101,42 @@ five summoned allies. Bound allies have
 the Resilient ability. When using Magic
 Rituals, ignore 4 points of penalties for
 Improved Duration.
-Communication Rift: By concentrating
+@Communication Rift: By concentrating
 for a full round Shifters can open microRifts across space and dimensions,
 just large enough to send and receive
 spoken messages; costs 15 PPE near a
 ley line, or 50 PPE away from one.
-Dimension Sense: With a Spellcasting
+@Dimension Sense: With a Spellcasting
 check, determine the following about a
 dimension: environmental conditions,
 magic poor or rich, temporal shifts,
 whether it is a parallel dimension, etc.
-Dimensional Teleport Home: Once
+@Dimensional Teleport Home: Once
 per day for 25 PPE, a Shifter can teleport
 himself home regardless of distance.
-Expanded Awareness: Shifters detect
+@Expanded Awareness: Shifters detect
 arcana as an Innate Ability. With a
 Notice roll, they sense supernatural
 beings or dimensional manipulations.
-Immortality: Transformed by his
+@Immortality: Transformed by his
 travels through the Megaverse®,
 Dunscon is immortal and immune to
 most Hazards as well as all possession.
-Ley Line Phasing and Ley Line Gate:
+@Ley Line Phasing and Ley Line Gate:
 See The Tomorrow Legion Player’s Guide.
-Ley Line Magic Mastery: See The
+@Ley Line Magic Mastery: See The
 Tomorrow Legion Player’s Guide.
-Psychotically Brave: A Legendary
+@Psychotically Brave: A Legendary
 Shifter, Dunscon gains +5 to Fear checks
 and subtracts 5 from Fear Table results.
-Regeneration: Dunscon’s immortality
+@Regeneration: Dunscon’s immortality
 also confers rapid healing—make a
 Vigor check every hour to heal wounds.
-Sense Rifts: Shifters can sense
+@Sense Rifts: Shifters can sense
 dimensional anomalies within 50 miles
 (direction, type, general location), or
 anywhere along a ley line’s length.
-Shift Reality: Shifters get a free reroll
+@Shift Reality: Shifters get a free reroll
 (can't reroll Critical Failures) on all
 Spellcasting rolls related to: banish, boost/
 lower Trait, drain Power Points, illusion,
@@ -144,7 +144,7 @@ intangibility, invisibility, light/darkness,
 sloth/speed, sound/silence, summon
 ally, teleport, and +4 to open, close, or
 manipulate Dimensional Portals.
-Weakness (Sacrifices): The price for
+@Weakness (Sacrifices): The price for
 Alistair Dunscon's immortality is the
 sacrificial death of a sentient being once
 a week, from whom he must drain the

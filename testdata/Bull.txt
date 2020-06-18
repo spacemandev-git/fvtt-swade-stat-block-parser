@@ -8,5 +8,5 @@ Skills: Athletics d8, Fighting d4, Notice d6
 Pace: 7; Parry: 4; Toughness: 11
 Edges: —
 Special Abilities:
- Horns: Str+d6.
- Size 3: Most bulls weigh just under a ton.
+@Horns: Str+d6.
+@Size 3: Most bulls weigh just under a ton.
