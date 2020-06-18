@@ -1,7 +1,5 @@
 import * as fs from "fs/promises";
 import { Actor } from "./IActor";
-import { start } from "repl";
-import { stringify } from "querystring";
 
 let coreKeywords = [
   "Attributes:",
