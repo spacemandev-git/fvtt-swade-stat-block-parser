@@ -1,8 +1,4 @@
-//import * as fs from "fs/promises";
-export const logger = function (message) {
-  console.log(`Statblock Importer | ${message}`);
-};
-
+import { logger } from "./util";
 export const buildActor = async function (actorName, statblock) {
   statblock = statblock.replace(/(\r\n|\n|\r)/gm, " ");
   //logger(game.settings.get("statblock-importer", "importer.lang"));
@@ -20,7 +16,7 @@ export const buildActor = async function (actorName, statblock) {
   actor.gear = buildActorGear(statblock);
   actor.powers = buildActorPowers(actor.edges, statblock);
   actor.specials = buildActorSpecials(statblock);
-  console.log(actor);
+  logger(actor);
 };
 
 function buildActorSpecials(statblock) {

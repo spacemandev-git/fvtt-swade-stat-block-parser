@@ -1,5 +1,6 @@
 import { registerSettings } from "./settings.js";
-import { buildActor, logger } from "./buildActor.js";
+import { buildActor } from "./buildActor.js";
+import { logger } from "./util.js";
 
 Hooks.once("init", async () => {
   logger("Initalizing Statblock Importer...");
