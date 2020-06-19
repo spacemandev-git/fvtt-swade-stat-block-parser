@@ -1,0 +1,23 @@
+{
+  "Statblock.Import": "Import",
+  "Statblock.Cancel": "Cancel",
+
+  "Statblock_Section.Attributes": "Attributes:",
+  "Statblock_Section.Skills": "Skills:",
+  "Statblock_Section.Pace": "Pace:",
+  "Statblock_Section.Parry": "Parry:",
+  "Statblock_Section.Toughness": "Toughness:",
+  "Statblock_Section.Hindrances": "Hindrances:",
+  "Statblock_Section.Hindrances_Major": "Major",
+  "Statblock_Section.Edges": "Edges:",
+  "Statblock_Section.ArcaneBackground": "Arcane Background",
+  "Statblock_Section.Powers": "Powers:",
+  "Statblock_Section.Powers_Multi": "Powers (",
+  "Statblock_Section.Powers_And": "and",
+  "Statblock_Section.Gear": "Gear:",
+  "Statblock_Section.Specials": "Special Abilities:",
+
+  "Statblock_Section.Cybernetics": "Cybernetic Systems:",
+  "Statblock_Section.Charisma": "Charisma:",
+  "Statblock_Section.Booty": "Booty:"
+}

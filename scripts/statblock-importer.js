@@ -1,5 +1,5 @@
 import { registerSettings } from "./settings.js";
-import { logger } from "./util.js";
+import { buildActor, logger } from "./buildActor.js";
 
 Hooks.once("init", async () => {
   logger("Initalizing Statblock Importer...");
@@ -14,7 +14,7 @@ Hooks.on("renderActorDirectory", (app, html, data) => {
   );
   html.find(".directory-footer").append(importButton);
   let dialogTemplate = `
-    <p>Name: <input type="text" id="actorName"></input></p>
+    <p>{{localize 'SWADE.Name'}}: <input type="text" id="actorName"></input></p>
     <p>Statblock:</p>
     <textarea id="statblock"></textarea>
   `;
@@ -26,13 +26,16 @@ Hooks.on("renderActorDirectory", (app, html, data) => {
       content: dialogTemplate,
       buttons: {
         Import: {
-          label: "Import",
+          label: game.i18n.localize("Statblock.Import"),
           callback: (html) => {
-            console.log(html);
+            buildActor(
+              html.find("#actorName")[0].value,
+              html.find("#statblock")[0].value
+            );
           },
         },
         Cancel: {
-          label: "Cancel",
+          label: game.i18n.localize("Statblock.Cancel"),
         },
       },
     }).render(true);
