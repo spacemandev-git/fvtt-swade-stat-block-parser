@@ -17,7 +17,7 @@ export const buildActor = async function (actorName, statblock) {
   actor.pace = buildActorPace(statblock);
   actor.hindrances = buildActorHindrances(statblock);
   actor.edges = buildActorEdges(statblock);
-  actor.gear = buildActorGear(stablock);
+  actor.gear = buildActorGear(statblock);
   actor.powers = buildActorPowers(actor.edges, statblock);
   actor.specials = buildActorSpecials(statblock);
   console.log(actor);
