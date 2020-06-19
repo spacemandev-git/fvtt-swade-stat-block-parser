@@ -13,11 +13,12 @@
   "Statblock_Section.ArcaneBackground": "Arcane Background",
   "Statblock_Section.Powers": "Powers:",
   "Statblock_Section.Powers_Multi": "Powers (",
-  "Statblock_Section.Powers_And": "and",
   "Statblock_Section.Gear": "Gear:",
-  "Statblock_Section.Specials": "Special Abilities:",
 
+  "Statblock_Section.Specials": "Special Abilities:",
   "Statblock_Section.Cybernetics": "Cybernetic Systems:",
   "Statblock_Section.Charisma": "Charisma:",
-  "Statblock_Section.Booty": "Booty:"
+  "Statblock_Section.Booty": "Booty:",
+
+  "Statblock_Quirks.Powers_And": "and"
 }

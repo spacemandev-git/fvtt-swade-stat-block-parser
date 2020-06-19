@@ -1,10 +1,12 @@
-import { logger } from "./util";
-export const buildActor = async function (actorName, statblock) {
+import { logger } from "./util.js";
+import { importActor } from "./importActor.js";
+export const buildActor = async function (actorName, statblock, actorType) {
   statblock = statblock.replace(/(\r\n|\n|\r)/gm, " ");
   //logger(game.settings.get("statblock-importer", "importer.lang"));
   let actor = {};
   //build actor json, then run compenium creator
   actor.name = actorName;
+  actor.type = actorType;
   actor.description = buildActorDescription(statblock);
   actor.attributes = buildActorAttributes(statblock);
   actor.skills = buildActorSkills(statblock);
@@ -16,7 +18,8 @@ export const buildActor = async function (actorName, statblock) {
   actor.gear = buildActorGear(statblock);
   actor.powers = buildActorPowers(actor.edges, statblock);
   actor.specials = buildActorSpecials(statblock);
-  logger(actor);
+  logger(JSON.stringify(actor));
+  await importActor(actor);
 };
 
 function buildActorSpecials(statblock) {
@@ -72,11 +75,11 @@ function buildActorPowers(edges, statblock) {
     //sometimes last power has the word 'and' in it
     if (
       powersList[powersList.length - 1].indexOf(
-        game.i18n.localize("Statblock_Section.Powers_And")
+        game.i18n.localize("Statblock_Quirks.Powers_And")
       ) >= 0
     ) {
       powersList[powersList.length - 1] = powersList[powersList.length - 1]
-        .split(game.i18n.localize("Statblock_Section.Powers_And"))[1]
+        .split(game.i18n.localize("Statblock_Quirks.Powers_And"))[1]
         .trim();
     }
 
@@ -102,11 +105,11 @@ function buildActorPowers(edges, statblock) {
         .map((el) => el.trim());
       if (
         pList[pList.length - 1].indexOf(
-          game.i18n.localize("Statblock_Section.Powers_And")
+          game.i18n.localize("Statblock_Quirks.Powers_And")
         ) >= 0
       ) {
         pList[pList.length - 1] = pList[pList.length - 1]
-          .split(game.i18n.localize("Statblock_Section.Powers_And"))[1]
+          .split(game.i18n.localize("Statblock_Quirks.Powers_And"))[1]
           .trim();
       }
       let pp_name = pSection.split(".")[1].trim().split(":")[0];
@@ -163,7 +166,10 @@ function buildActorEdges(statblock) {
   let endIndex = getNextKeywordIndex(startIndex, statblock);
   let edgeList = statblock.slice(startIndex, endIndex);
   if (edgeList[0] != "—") {
-    edges = edgeList.split(",").map((edge) => edge.trim());
+    edges = edgeList
+      .split(",")
+      .map((edge) => edge.trim())
+      .filter((e) => e != ""); //takes out empty strings
   }
   return edges;
 }
@@ -287,10 +293,11 @@ function buildActorAttributes(statblock) {
   attrList.map((attr) => {
     let attrName = attr.split(" d")[0];
     let die = attr.split(" d")[1];
-    attributes[attrName] = {
-      name: attrName,
-      die: parseInt(die.split("+")[0]),
-      mod: die.split("+")[1] ? parseInt(die.split("+")[1]) : 0,
+    attributes[attrName.toLowerCase()] = {
+      die: {
+        sides: parseInt(die.split("+")[0]),
+        modifier: die.split("+")[1] ? parseInt(die.split("+")[1]) : 0,
+      },
     };
   });
   return attributes;

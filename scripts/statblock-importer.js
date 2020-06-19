@@ -15,9 +15,18 @@ Hooks.on("renderActorDirectory", (app, html, data) => {
   );
   html.find(".directory-footer").append(importButton);
   let dialogTemplate = `
-    <p>{{localize 'SWADE.Name'}}: <input type="text" id="actorName"></input></p>
+    <p>${game.i18n.localize(
+      "SWADE.Name"
+    )}: <input type="text" id="actorName"></input></p>
     <p>Statblock:</p>
     <textarea id="statblock"></textarea>
+    <p>
+    Actor Type:
+    <select id="actorType">
+      <option value="npc">npc</option>
+      <option value="character">character</option>
+    </select>
+    </p>
   `;
 
   importButton.click((ev) => {
@@ -31,12 +40,13 @@ Hooks.on("renderActorDirectory", (app, html, data) => {
           callback: (html) => {
             buildActor(
               html.find("#actorName")[0].value,
-              html.find("#statblock")[0].value
+              html.find("#statblock")[0].value,
+              html.find("#actorType")[0].value
             );
           },
         },
         Cancel: {
-          label: game.i18n.localize("Statblock.Cancel"),
+          label: game.i18n.localize("SWADE.Cancel"),
         },
       },
     }).render(true);
