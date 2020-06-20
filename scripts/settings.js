@@ -10,4 +10,6 @@ export const registerSettings = function () {
       English: "english",
     },
   }); */
+  //Setting to allow users to switch off SWADE core compendiums
+  //game.settings.register("statblock-importer", "compendiums.exclude", {});
 };

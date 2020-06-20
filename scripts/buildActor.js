@@ -48,7 +48,7 @@ function buildActorSpecials(statblock) {
 }
 
 function buildActorPowers(edges, statblock) {
-  let arcaneList = {};
+  let StList = {};
   //parse edges to see what Arcane Backgrounds exist
   let arcaneBackroundList = [];
   edges.map((edge) => {
