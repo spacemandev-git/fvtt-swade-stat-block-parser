@@ -24,6 +24,19 @@ async function importActorSkillsList(actor) {
     let item = await searchCompendiumsForItem(skillName, "skill");
     if (item == null) {
       logger(`Creating Skill: ${skillName}`);
+      let newItem = await Item.create({
+        name: skillName,
+        type: "skill",
+        img: "modules/fvtt-swade-stat-block-parser/assets/skills.svg",
+        data: {
+          description: "",
+          notes: "",
+          attribute: "",
+          die: actor.skills[skillName],
+          "wild-die": { sides: 6 },
+        },
+      });
+      skillItems.push(newItem);
     } else {
       item.data.die = actor.skills[skillName];
       skillItems.push(item);
