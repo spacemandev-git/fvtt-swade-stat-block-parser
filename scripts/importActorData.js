@@ -1,24 +1,29 @@
 export const importActorData = function (actor) {
   // Commented out fields will be automatically created by the sheet
   let data = {};
-  data.attributes = importActorAttributes(actor);
-  data.stats = {};
-  data.details = {};
-  data.powerPoints = {};
-  //data.fatigue = {}
-  //data.wounds = {}
-  //data.advances = {}
-  //data.bennies = {}
-  //data.owned = {}
-  data.status = {};
-  data.initiative = {};
+  data.attributes = actor.attributes;
+  data.stats = {
+    speed: { sprintDie: "1d6", value: actor.pace },
+    toughness: actor.toughness,
+    parry: actor.parry,
+    size: 0,
+  };
+  data.details = {
+    biography: { value: actor.description },
+  };
+  data.powerPoints = importActorPowerPoints(actor);
   data.wildcard = actor.type == "character" ? true : false;
 
   return data;
 };
 
-function importActorAttributes(actor) {
-  let attributes = actor.attributes;
-
-  return attributes;
+function importActorPowerPoints(actor) {
+  let powerPoints = {};
+  Object.keys(actor["powers"]).map((arcaneBackground) => {
+    powerPoints[arcaneBackground] = {
+      value: actor["powers"][arcaneBackground].pp_amt,
+      max: actor["powers"][arcaneBackground].pp_amt,
+    };
+  });
+  return powerPoints;
 }

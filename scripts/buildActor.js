@@ -47,17 +47,14 @@ function buildActorPowers(edges, statblock) {
   //parse edges to see what Arcane Backgrounds exist
   let arcaneBackroundList = [];
   edges.map((edge) => {
-    if (
-      edge.indexOf(game.i18n.localize("Statblock_Section.ArcaneBackground")) >=
-      0
-    ) {
+    if (edge.indexOf(game.i18n.localize("SWADE.ArcBack")) >= 0) {
       arcaneBackroundList.push(edge.split("(")[1].split(")")[0]);
     }
   });
 
   if (arcaneBackroundList.length == 0) {
     //no powers
-    return;
+    return arcaneList;
   }
 
   if (arcaneBackroundList.length == 1) {
@@ -166,10 +163,7 @@ function buildActorEdges(statblock) {
   let endIndex = getNextKeywordIndex(startIndex, statblock);
   let edgeList = statblock.slice(startIndex, endIndex);
   if (edgeList[0] != "—") {
-    edges = edgeList
-      .split(",")
-      .map((edge) => edge.trim())
-      .filter((e) => e != ""); //takes out empty strings
+    edges = edgeList.split(",").map((edge) => edge.trim());
   }
   return edges;
 }
@@ -227,14 +221,14 @@ function buildActorPace(statblock) {
 }
 
 function buildActorParry(statblock) {
-  let parry = 2;
+  let parry = { value: 2, modifier: 0 };
   let sectionHeader = game.i18n.localize("Statblock_Section.Parry");
   let startIndex = statblock.indexOf(sectionHeader) + sectionHeader.length;
   if (statblock.indexOf(sectionHeader) == -1) {
     return parry;
   }
   let endIndex = getNextKeywordIndex(startIndex, statblock);
-  parry = parseInt(statblock.slice(startIndex, endIndex).trim());
+  parry.value = parseInt(statblock.slice(startIndex, endIndex).trim());
   return parry;
 }
 
@@ -275,9 +269,8 @@ function buildActorSkills(statblock) {
     let skillName = skill.split(" d")[0];
     let die = skill.split(" d")[1];
     skills[skillName] = {
-      name: skillName,
-      die: parseInt(die.split("+")[0]),
-      mod: die.split("+")[1] ? parseInt(die.split("+")[1]) : 0,
+      sides: parseInt(die.split("+")[0]),
+      modifier: die.split("+")[1] ? die.split("+")[1] : "", //modifier is for whatever reason a string in the data model
     };
   });
   return skills;

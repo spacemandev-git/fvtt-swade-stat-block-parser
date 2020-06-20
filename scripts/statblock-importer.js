@@ -19,7 +19,7 @@ Hooks.on("renderActorDirectory", (app, html, data) => {
       "SWADE.Name"
     )}: <input type="text" id="actorName"></input></p>
     <p>Statblock:</p>
-    <textarea id="statblock"></textarea>
+    <textarea id="statblock" style="height: 500px;"></textarea>
     <p>
     Actor Type:
     <select id="actorType">
