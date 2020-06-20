@@ -99,14 +99,14 @@ async function importActorHindrances(actor) {
         type: "hindrance",
         img: "systems/swade/assets/icons/hindrance.svg",
         data: {
-          notes: actor.hindrances[hindranceNames[i]].note,
+          description: actor.hindrances[hindranceNames[i]].note,
           major: actor.hindrances[hindranceNames[i]].major,
         },
       });
       hindranceItems.push(newItem);
     } else {
       item.major = actor.hindrances[hindranceNames[i]].major;
-      item.notes = actor.hindrances[hindranceNames[i]].note;
+      item.description += "<p></p>" + actor.hindrances[hindranceNames[i]].note;
       hindranceItems.push(item);
     }
   }
