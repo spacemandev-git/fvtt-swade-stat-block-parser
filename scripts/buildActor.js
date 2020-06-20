@@ -36,7 +36,12 @@ function buildActorSpecials(statblock) {
     .map((el) => el.trim())
     .slice(1);
   specialsList.map((el) => {
-    specials[el.split(":")[0].trim()] = el.split(":")[1].trim();
+    if (el.split(":").length == 1) {
+      //it doesn't have a : between ability: description
+      specials[el] = "";
+    } else {
+      specials[el.split(":")[0].trim()] = el.split(":")[1].trim();
+    }
   });
 
   return specials;
@@ -245,7 +250,9 @@ function buildActorToughness(statblock) {
   let endIndex = getNextKeywordIndex(startIndex, statblock);
   let rawTough = statblock.slice(startIndex, endIndex);
   if (rawTough.split(" (")[1] != undefined) {
-    toughness.value = parseInt(rawTough.split(" (")[0]);
+    toughness.value =
+      parseInt(rawTough.split(" (")[0]) -
+      parseInt(rawTough.split("(")[1].split(")")[0]);
     toughness.armor = parseInt(rawTough.split("(")[1].split(")")[0]);
   } else {
     toughness.value = parseInt(rawTough);
