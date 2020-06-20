@@ -9,13 +9,24 @@ export const importActorData = function (actor) {
     size: 0,
   };
   data.details = {
-    biography: { value: actor.description },
+    biography: {
+      value: actor.description + "<p></p><p></p>" + getSpecialsAsHTML(actor),
+    },
   };
   data.powerPoints = importActorPowerPoints(actor);
   data.wildcard = actor.type == "character" ? true : false;
 
   return data;
 };
+
+function getSpecialsAsHTML(actor) {
+  let specials = "";
+  let abilities = Object.keys(actor.specials);
+  abilities.map((abl) => {
+    specials += `<p>${abl} : ${actor.specials[abl]}</p>`;
+  });
+  return specials;
+}
 
 function importActorPowerPoints(actor) {
   let powerPoints = {};

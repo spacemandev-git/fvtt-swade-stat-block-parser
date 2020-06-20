@@ -4,7 +4,7 @@ export const importActorItems = async function (actor) {
   let gearList = [];
   let skillsList = await importActorSkillsList(actor); //don't await cause the whole function is awaited
   let edgesList = await importActorEdges(actor);
-  let hindranceList = [];
+  let hindranceList = await importActorHindrances(actor);
   let powersList = [];
 
   let itemList = gearList.concat(
@@ -15,6 +15,33 @@ export const importActorItems = async function (actor) {
   );
   return itemList;
 };
+
+async function importActorHindrances(actor) {
+  let hindranceItems = [];
+  let hindranceNames = Object.keys(actor.hindrances);
+  for (let i = 0; i < hindranceNames.length; i++) {
+    let item = await searchCompendiumsForItem(hindranceNames[i], "hindrance");
+    if (item == null) {
+      logger(`Creating new Hindrance ${hindranceNames[i]}`);
+      let newItem = await Item.create({
+        name: hindranceNames[i],
+        type: "hindrance",
+        img: "systems/swade/assets/icons/hindrance.svg",
+        data: {
+          notes: actor.hindrances[hindranceNames[i]].note,
+          major: actor.hindrances[hindranceNames[i]].major,
+        },
+      });
+      hindranceItems.push(newItem);
+    } else {
+      item.major = actor.hindrances[hindranceNames[i]].major;
+      item.notes = actor.hindrances[hindranceNames[i]].note;
+      hindranceItems.push(item);
+    }
+  }
+
+  return hindranceItems;
+}
 
 async function importActorEdges(actor) {
   let edgeItems = [];
