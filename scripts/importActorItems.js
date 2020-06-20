@@ -2,7 +2,7 @@ import { logger } from "./util.js";
 
 export const importActorItems = async function (actor) {
   let gearList = await importActorGear(actor);
-  let skillsList = await importActorSkillsList(actor); //don't await cause the whole function is awaited
+  let skillsList = await importActorSkillsList(actor);
   let edgesList = await importActorEdges(actor);
   let hindranceList = await importActorHindrances(actor);
   let powersList = await importActorPowers(actor);

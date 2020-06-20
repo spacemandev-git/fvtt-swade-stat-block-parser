@@ -1,0 +1,23 @@
+{
+  "Statblock.Import": "Importar",
+
+  "Statblock_Section.Attributes": "Atributos:",
+  "Statblock_Section.Skills": "Habilidades:",
+  "Statblock_Section.Pace": "Paso:",
+  "Statblock_Section.Parry": "Parar:",
+  "Statblock_Section.Toughness": "Tenacidad:",
+  "Statblock_Section.Hindrances": "Desventajas:",
+  "Statblock_Section.Edges": "Ventajas:",
+  "Statblock_Section.ArcaneBackground": "Trasfondo Arcano:",
+  "Statblock_Section.Powers": "Potestades:",
+  "Statblock_Section.Powers_Multi": "Potestades (",
+  "Statblock_Section.Gear": "Engranaje:",
+
+  "Statblock_Section.Specials": "Habilidades Especiales:",
+  "Statblock_Section.Cybernetics": "Sistemas Cibernéticos:",
+  "Statblock_Section.Charisma": "Carisma:",
+  "Statblock_Section.Booty": "Botín:",
+
+  "Statblock_Quirks.Powers_And": " y ",
+  "Statblock_Quirks.Hindrances_Major": "Mayor"
+}

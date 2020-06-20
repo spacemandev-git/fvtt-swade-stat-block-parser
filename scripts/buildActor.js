@@ -197,7 +197,7 @@ function buildActorHindrances(statblock) {
     if (h.split("(")[1]) {
       major =
         h.split("(")[1].split("—")[0] ==
-        game.i18n.localize("Statblock_Section.Hindrances_Major")
+        game.i18n.localize("Statblock_Quirks.Hindrances_Major")
           ? true
           : false;
       note = h.split("(")[1].split("—")[1]
