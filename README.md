@@ -4,7 +4,7 @@ It does NOT search through your items, only through compendiums, so it  might en
 
 Future Features:
 - Add IMG path to text file parsing
-- Add game setting to NOT search in the system swade compendiums
+- Add game setting to selectively ignore compendiums by name
 
 Adminstrative todos;
 - Make a video of how to use this

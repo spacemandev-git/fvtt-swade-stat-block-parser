@@ -5,7 +5,7 @@ export const importActorItems = async function (actor) {
   let skillsList = await importActorSkillsList(actor); //don't await cause the whole function is awaited
   let edgesList = await importActorEdges(actor);
   let hindranceList = await importActorHindrances(actor);
-  let powersList = [];
+  let powersList = await importActorPowers(actor);
 
   let itemList = gearList.concat(
     skillsList,
@@ -15,6 +15,33 @@ export const importActorItems = async function (actor) {
   );
   return itemList;
 };
+
+async function importActorPowers(actor) {
+  let powerItems = [];
+  let arcaneBackgrounds = Object.keys(actor.powers);
+  for (let a = 0; a < arcaneBackgrounds.length; a++) {
+    let powersList = actor.powers[arcaneBackgrounds[a]].list;
+    for (let p = 0; p < powersList.length; p++) {
+      let item = await searchCompendiumsForItem(powersList[p], "power");
+      if (item == null) {
+        logger(`Creating new power: ${powersList[p]}`);
+        let newItem = await Item.create({
+          name: powersList[p],
+          type: "power",
+          img: "systems/swade/assets/icons/power.svg",
+          data: {
+            arcane: arcaneBackgrounds[a],
+          },
+        });
+        powerItems.push(newItem);
+      } else {
+        item.data.arcane = arcaneBackgrounds[a];
+        powerItems.push(item);
+      }
+    }
+  }
+  return powerItems;
+}
 
 async function importActorHindrances(actor) {
   let hindranceItems = [];
