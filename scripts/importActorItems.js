@@ -3,7 +3,7 @@ import { logger } from "./util.js";
 export const importActorItems = async function (actor) {
   let gearList = [];
   let skillsList = await importActorSkillsList(actor); //don't await cause the whole function is awaited
-  let edgesList = [];
+  let edgesList = await importActorEdges(actor);
   let hindranceList = [];
   let powersList = [];
 
@@ -15,6 +15,51 @@ export const importActorItems = async function (actor) {
   );
   return itemList;
 };
+
+async function importActorEdges(actor) {
+  let edgeItems = [];
+  for (let i = 0; i < actor.edges.length; i++) {
+    //if Arcane Background then parse it differently
+    if (actor.edges[i].indexOf(game.i18n.localize("SWADE.ArcBack")) != -1) {
+      //let backgroundType = actor.edges[i].split("(")[1].split(")")[0].trim();
+      let item = await searchCompendiumsForItem(
+        game.i18n.localize("SWADE.ArcBack"),
+        "edge"
+      );
+      if (item == null) {
+        logger(`Creating New Arcane Edge: ${actor.edges[i]}`);
+        let newItem = await Item.create({
+          name: actor.edges[i],
+          type: "edge",
+          img: "systems/swade/assets/icons/edge.svg",
+          data: {
+            isArcaneBackground: true,
+          },
+        });
+        edgeItems.push(newItem);
+      } else {
+        item.name = actor.edges[i];
+        edgeItems.push(item);
+      }
+    } else {
+      let item = await searchCompendiumsForItem(actor.edges[i], "edge");
+      if (item == null) {
+        logger(`Creating Edge: ${actor.edges[i]}`);
+        let newItem = await Item.create({
+          name: actor.edges[i],
+          type: "edge",
+          img: "systems/swade/assets/icons/edge.svg",
+        });
+        edgeItems.push(newItem);
+      } else {
+        //no need to change anything about the edge
+        edgeItems.push(item);
+      }
+    }
+  }
+
+  return edgeItems;
+}
 
 async function importActorSkillsList(actor) {
   let skillItems = [];
@@ -53,7 +98,9 @@ async function searchCompendiumsForItem(itemName, itemType) {
 
   for (let i = 0; i < itemPacks.length; i++) {
     let packIndex = await itemPacks[i].getIndex();
-    let searchResult = packIndex.find((el) => el.name == itemName);
+    let searchResult = packIndex.find(
+      (el) => el.name.toLowerCase() == itemName.toLowerCase()
+    );
     if (searchResult != undefined) {
       let itemInstance = await itemPacks[i].getEntry(searchResult["_id"]);
       if (itemInstance.type == itemType) {

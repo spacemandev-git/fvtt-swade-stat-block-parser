@@ -1,8 +1,7 @@
-1. Copy paste a statblock into a text file inside testdata/ folder
-2. Replace the prefix for all special abilities from being the weird non ascii characters with '@'
-3. npm install
-4. npm run parser
+Need to prefix statblock special abilities section with '@' for it to read them. If you do not use @ nothing bad will happen, it just won't know what the special abilities are and will ignore them.
 
-Known Problems:
+It does NOT search through your items, only through compendiums, so it  might end up creating multiple copies of an item if you never add the new item to your compendium.
 
-1.
+Future Features:
+- Add IMG path to text file parsing
+- Add game setting to NOT search in the system swade compendiums
