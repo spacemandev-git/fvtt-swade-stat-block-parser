@@ -1,7 +1,7 @@
 import { logger } from "./util.js";
 
 export const importActorItems = async function (actor) {
-  let gearList = [];
+  let gearList = await importActorGear(actor);
   let skillsList = await importActorSkillsList(actor); //don't await cause the whole function is awaited
   let edgesList = await importActorEdges(actor);
   let hindranceList = await importActorHindrances(actor);
@@ -15,6 +15,50 @@ export const importActorItems = async function (actor) {
   );
   return itemList;
 };
+
+async function importActorGear(actor) {
+  let gearList = [];
+  let gearNames = Object.keys(actor.gear);
+  for (let g = 0; g < gearNames.length; g++) {
+    //we don't know if the gear is of type 'weapon', 'shield', 'armor', or 'gear'
+    let wepItem = await searchCompendiumsForItem(gearNames[g], "weapon");
+    if (wepItem != null) {
+      wepItem.data.quantity = actor.gear[gearNames[g]].quantity;
+      gearList.push(wepItem);
+      continue;
+    }
+    let armorItem = await searchCompendiumsForItem(gearNames[g], "weapon");
+    if (armorItem != null) {
+      armorItem.data.quantity = actor.gear[gearNames[g]].quantity;
+      gearList.push(armorItem);
+      continue;
+    }
+    let shieldItem = await searchCompendiumsForItem(gearNames[g], "weapon");
+    if (shieldItem != null) {
+      shieldItem.data.quantity = actor.gear[gearNames[g]].quantity;
+      gearList.push(shieldItem);
+      continue;
+    }
+    let gearItem = await searchCompendiumsForItem(gearNames[g], "weapon");
+    if (gearItem != null) {
+      gearItem.data.quantity = actor.gear[gearNames[g]].quantity;
+      gearList.push(gearItem);
+      continue;
+    }
+    //item does not exist
+    let newGear = await Item.create({
+      name: gearNames[g],
+      type: "gear",
+      img: "systems/swade/assets/icons/gear.svg",
+      data: {
+        description: actor.gear[gearNames[g]].description,
+        description: actor.gear[gearNames[g]].description,
+      },
+    });
+    gearList.push(newGear);
+  }
+  return gearList;
+}
 
 async function importActorPowers(actor) {
   let powerItems = [];
