@@ -11,5 +11,4 @@ export const registerSettings = function () {
     },
   }); */
   //Setting to allow users to switch off SWADE core compendiums
-  //game.settings.register("statblock-importer", "compendiums.exclude", {});
 };

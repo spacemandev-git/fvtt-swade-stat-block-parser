@@ -4,6 +4,8 @@ It does NOT search through your items, only through compendiums, so it  might en
 
 Until swade-system incorporates display for toughness:armor:mod, it is HIGHLY reccomended to use swade-autocalc module else, you will think that the toughness this spits out is less than the inputted toughness. THIS IS INTENTIONAL, it will subtract ARMOR from the TOUGHNESS value so Toughness: 14 (4) becomes Toughess: 10, Armor: 4 which is as it should be
 
+Because of the localization, if you try to import English statblocks while you have a Spanish setting activated, then it will fail. Same with Spanish in English settings. 
+
 Future Features:
 - Add IMG path to text file parsing
 - Add game setting to selectively ignore compendiums by name

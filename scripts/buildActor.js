@@ -287,6 +287,10 @@ function buildActorAttributes(statblock) {
   let attributes = {};
   let sectionHeader = game.i18n.localize("Statblock_Section.Attributes");
   let startIndex = statblock.indexOf(sectionHeader) + sectionHeader.length;
+  if (statblock.indexOf(sectionHeader) == -1) {
+    ui.notifications.error("Not a valid statblock!");
+    return attributes;
+  }
   let endIndex = getNextKeywordIndex(startIndex, statblock);
   let attrList = statblock.slice(startIndex, endIndex).split(",");
   attrList = attrList.map((attr) => attr.trim());
