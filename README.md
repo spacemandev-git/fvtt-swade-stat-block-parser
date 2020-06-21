@@ -10,7 +10,7 @@ Future Features:
 
 1.1.0 Release:
 
-- Exclude Compendiums(https://github.com/earlSt1/vtt-compendium-hider)
+- Exclude Compendiums (DONE)
 - Create Compendiums for Imported Items
 - Gear Parsing for Weapons/Shields/Armor
 - T (A) rather than T + A read out

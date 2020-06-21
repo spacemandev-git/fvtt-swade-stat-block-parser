@@ -4,10 +4,10 @@ import { logger } from "./util.js";
 
 Hooks.once("init", async () => {});
 Hooks.once("setup", () => {});
-Hooks.once("ready", () => {
+Hooks.once("ready", async () => {
   //game.packs isn't ready til ready
   logger("Initalizing SWADE Statblock Importer...");
-  Settings.registerSettings();
+  await Settings.registerSettings();
   logger("Done Initializing!");
 });
 

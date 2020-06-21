@@ -55,6 +55,7 @@ async function importActorGear(actor) {
         description: actor.gear[gearNames[g]].description,
       },
     });
+    await addToStatblockCompendium(newItem, "gear");
     gearList.push(newGear);
   }
   return gearList;
@@ -77,6 +78,7 @@ async function importActorPowers(actor) {
             arcane: arcaneBackgrounds[a],
           },
         });
+        await addToStatblockCompendium(newItem, "power");
         powerItems.push(newItem);
       } else {
         item.data.arcane = arcaneBackgrounds[a];
@@ -103,6 +105,7 @@ async function importActorHindrances(actor) {
           major: actor.hindrances[hindranceNames[i]].major,
         },
       });
+      await addToStatblockCompendium(newItem, "hindrance");
       hindranceItems.push(newItem);
     } else {
       item.major = actor.hindrances[hindranceNames[i]].major;
@@ -134,6 +137,7 @@ async function importActorEdges(actor) {
             isArcaneBackground: true,
           },
         });
+        await addToStatblockCompendium(newItem, "edge");
         edgeItems.push(newItem);
       } else {
         item.name = actor.edges[i];
@@ -180,6 +184,7 @@ async function importActorSkillsList(actor) {
         },
       });
       skillItems.push(newItem);
+      await addToStatblockCompendium(newItem, "skill");
     } else {
       item.data.die = actor.skills[skillName];
       skillItems.push(item);
@@ -215,4 +220,15 @@ async function searchCompendiumsForItem(itemName, itemType) {
   }
 
   return item;
+}
+
+async function addToStatblockCompendium(item, itemType) {
+  let itemCompendium = game.packs.find(
+    (p) => p.metadata.name == `${mod}.statblock-${itemType}`
+  );
+  logger(
+    `Adding Item ${item.name} to Compendium ${itemCompendium.metadata.label}`
+  );
+  //add item
+  await itemCompendium.createEntity(item);
 }

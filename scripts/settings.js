@@ -1,7 +1,7 @@
 import { mod, logger, getItemCompendiums } from "./util.js";
 
 export class Settings {
-  static registerSettings() {
+  static async registerSettings() {
     game.settings.registerMenu(mod, "settingsMenu", {
       name: "Exclude Item Compendiums",
       label: "Exclude Compendiums",
@@ -10,9 +10,13 @@ export class Settings {
       restricted: true,
     });
 
+    //Create any missing Statblock Import Compendiums
+    //await createImportCompendiums();
+    await createCompendiums();
     let itemCompendiumList = getItemCompendiums();
-    for (let compendium of itemCompendiumList) {
-      console.log(
+    for (let i = 0; i < itemCompendiumList.length; i++) {
+      let compendium = itemCompendiumList[i];
+      logger(
         `Registering Setting for ${compendium} as ${compendium.replace(
           ".",
           "-"
@@ -23,6 +27,34 @@ export class Settings {
         config: false,
         type: Boolean,
         default: false,
+      });
+    }
+  }
+}
+
+async function createCompendiums() {
+  let itemCompendiumList = getItemCompendiums();
+  let typesList = [
+    "weapon",
+    "armor",
+    "shield",
+    "gear",
+    "skill",
+    "edge",
+    "hindrance",
+    "power",
+  ];
+  for (let i = 0; i < typesList.length; i++) {
+    let type = typesList[i];
+    if (
+      itemCompendiumList.find((c) => c == `${mod}.statblock-${type}`) ==
+      undefined
+    ) {
+      logger(`Creating Compendium ${mod}.statblock-${type}`);
+      await Compendium.create({
+        name: `${mod}.statblock-${type}`,
+        label: `SWADE Imports [${type}]`,
+        entity: "Item",
       });
     }
   }
@@ -39,7 +71,7 @@ class SettingsForm extends FormApplication {
       template:
         "modules/fvtt-swade-stat-block-parser/templates/ExcludeCompendiums.html",
       classes: ["sheet"],
-      width: 250,
+      width: 350,
       closeOnSubmit: true,
     });
   }
@@ -59,6 +91,7 @@ class SettingsForm extends FormApplication {
           mod,
           itemCompendiumList[i].replace(".", "-") + "-excluded"
         ),
+        label: game.packs.get(itemCompendiumList[i]).metadata.label,
       });
     }
     return data;
