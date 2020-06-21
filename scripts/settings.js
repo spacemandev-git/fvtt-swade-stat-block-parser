@@ -1,5 +1,4 @@
-import { logger, getItemCompendiums } from "./util.js";
-let mod = "fvtt-swade-stat-block-parser";
+import { mod, logger, getItemCompendiums } from "./util.js";
 
 export class Settings {
   static registerSettings() {

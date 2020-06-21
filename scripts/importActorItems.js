@@ -1,4 +1,4 @@
-import { logger } from "./util.js";
+import { mod, logger, getItemCompendiums } from "./util.js";
 
 export const importActorItems = async function (actor) {
   let gearList = await importActorGear(actor);
@@ -190,9 +190,15 @@ async function importActorSkillsList(actor) {
 
 async function searchCompendiumsForItem(itemName, itemType) {
   let item = null;
-  let itemPacks = Array.from(game.packs).filter(
-    (pack) => pack.metadata.entity == "Item"
-  );
+  let allPacks = getItemCompendiums();
+  let itemPacks = [];
+  for (let pack of allPacks) {
+    if (!game.settings.get(mod, pack.replace(".", "-") + "-excluded")) {
+      itemPacks.push(game.packs.get(pack));
+    } else {
+      logger(`Excluding pack ${pack} during item lookup`);
+    }
+  }
 
   for (let i = 0; i < itemPacks.length; i++) {
     let packIndex = await itemPacks[i].getIndex();

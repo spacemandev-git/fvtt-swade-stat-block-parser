@@ -1,3 +1,4 @@
+export const mod = "fvtt-swade-stat-block-parser";
 export const logger = function (message) {
   console.log(`Statblock Importer | ${message}`);
 };
