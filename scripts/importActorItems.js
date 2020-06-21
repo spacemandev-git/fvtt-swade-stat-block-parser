@@ -27,38 +27,61 @@ async function importActorGear(actor) {
       gearList.push(wepItem);
       continue;
     }
-    let armorItem = await searchCompendiumsForItem(gearNames[g], "weapon");
+    let armorItem = await searchCompendiumsForItem(gearNames[g], "armor");
     if (armorItem != null) {
       armorItem.data.quantity = actor.gear[gearNames[g]].quantity;
       gearList.push(armorItem);
       continue;
     }
-    let shieldItem = await searchCompendiumsForItem(gearNames[g], "weapon");
+    let shieldItem = await searchCompendiumsForItem(gearNames[g], "shield");
     if (shieldItem != null) {
       shieldItem.data.quantity = actor.gear[gearNames[g]].quantity;
       gearList.push(shieldItem);
       continue;
     }
-    let gearItem = await searchCompendiumsForItem(gearNames[g], "weapon");
+    let gearItem = await searchCompendiumsForItem(gearNames[g], "gear");
     if (gearItem != null) {
       gearItem.data.quantity = actor.gear[gearNames[g]].quantity;
       gearList.push(gearItem);
       continue;
     }
     //item does not exist
+    /*     
     let newGear = await Item.create({
       name: gearNames[g],
       type: "gear",
       img: "systems/swade/assets/icons/gear.svg",
       data: {
         description: actor.gear[gearNames[g]].description,
-        description: actor.gear[gearNames[g]].description,
       },
     });
-    await addToStatblockCompendium(newItem, "gear");
-    gearList.push(newGear);
+    await addToStatblockCompendium(newItem, "gear"); */
+    //Build Gear Item will parse and add to Correct Compendiums
+    let newGearItem = await buildNewGearItem(actor.gear[gearNames[g]]);
+    gearList.push(newGearItem);
   }
   return gearList;
+}
+
+async function buildNewGearItem(item) {
+  //Item = actor.gear[i]
+
+  // Weapons will have RANGE attribute
+  // Shields will have PARRY attribute
+  // Armor will have ARMOR attribute
+  // Otherwise it's gear
+  let newGear = await Item.create({
+    name: item.name,
+    type: "gear",
+    img: "systems/swade/assets/icons/gear.svg",
+    data: {
+      description: item.description,
+      quantity: item.quantity,
+    },
+  });
+  await addToStatblockCompendium(newGear, "gear");
+  return newGear;
+  //Add to Correct Gear Compendium
 }
 
 async function importActorPowers(actor) {

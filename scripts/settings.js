@@ -67,7 +67,7 @@ class SettingsForm extends FormApplication {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       id: mod + ".excludeCompendiums",
-      title: "Exclude Compendiums",
+      title: game.i18n.localize("Statblock_Settings.ExcludeCompendiums"),
       template:
         "modules/fvtt-swade-stat-block-parser/templates/ExcludeCompendiums.html",
       classes: ["sheet"],

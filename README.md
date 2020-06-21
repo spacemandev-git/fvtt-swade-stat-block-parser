@@ -11,7 +11,7 @@ Future Features:
 1.1.0 Release:
 
 - Exclude Compendiums (DONE)
-- Create Compendiums for Imported Items
+- Create Compendiums for Imported Items (DONE)
 - Gear Parsing for Weapons/Shields/Armor
 - T (A) rather than T + A read out
 - Auto equip items on import

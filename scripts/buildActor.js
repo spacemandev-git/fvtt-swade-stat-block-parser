@@ -138,7 +138,7 @@ function buildActorGear(statblock) {
   let gearList = statblock.slice(startIndex, endIndex).split("),");
   gearList.map((g) => {
     let gearName = g.split("(")[0].trim();
-    let gearDescription = g.split("(")[1];
+    let gearDescription = g.split("(")[1].split(")")[0];
 
     if (gearName.split("×")[1]) {
       gear[gearName.split("×")[1].trim().slice(0, -1)] = {
@@ -241,6 +241,7 @@ function buildActorToughness(statblock) {
   let toughness = {
     value: 2,
     armor: 0,
+    modifier: 0,
   };
   let sectionHeader = game.i18n.localize("Statblock_Section.Toughness");
   let startIndex = statblock.indexOf(sectionHeader) + sectionHeader.length;
@@ -250,9 +251,7 @@ function buildActorToughness(statblock) {
   let endIndex = getNextKeywordIndex(startIndex, statblock);
   let rawTough = statblock.slice(startIndex, endIndex);
   if (rawTough.split(" (")[1] != undefined) {
-    toughness.value =
-      parseInt(rawTough.split(" (")[0]) -
-      parseInt(rawTough.split("(")[1].split(")")[0]);
+    toughness.value = parseInt(rawTough.split(" (")[0]);
     toughness.armor = parseInt(rawTough.split("(")[1].split(")")[0]);
   } else {
     toughness.value = parseInt(rawTough);
