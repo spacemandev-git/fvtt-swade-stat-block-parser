@@ -1,0 +1,25 @@
+<form autocomplete="off" onsubmit="event.preventDefault()">
+  <h1 class="module-header">Exclude Item Compendiums</h1>
+  {{#each compendiums}}
+  <p class="form-group">
+    <label>{{this.name}}</label>
+    {{#if this.value }}
+    <input
+      style="float: right;"
+      name="{{this.name}}"
+      type="checkbox"
+      value="{{this.name}}"
+      checked
+    />
+    {{else}}
+    <input
+      style="float: right;"
+      name="{{this.name}}"
+      type="checkbox"
+      value="{{this.name}}"
+    />
+    {{/if}}
+  </p>
+  {{/each}}
+  <button type="submit" name="submit"><i class="fas fa-save"></i> Save</button>
+</form>

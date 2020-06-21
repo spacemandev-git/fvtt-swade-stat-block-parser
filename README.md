@@ -8,12 +8,21 @@ Because of the localization, if you try to import English statblocks while you h
 
 Future Features:
 
+1.1.0 Release:
+
+- Exclude Compendiums(https://github.com/earlSt1/vtt-compendium-hider)
+- Create Compendiums for Imported Items
+- Gear Parsing for Weapons/Shields/Armor
+- T (A) rather than T + A read out
+- Auto equip items on import
+
+Future:
+- Allow parsing of any suported language while in any langauge setting
 - Add IMG path to text file parsing
-- Add game setting to selectively ignore compendiums by name
 - Parse Size from special abilities
-- Parse gear so it creates wep/armor/shields instead of just gear on no match
 - T(A) vs T+A option
 - Bulk Import
+- Option to add Special Abilities as Edges
 
 Adminstrative todos;
 

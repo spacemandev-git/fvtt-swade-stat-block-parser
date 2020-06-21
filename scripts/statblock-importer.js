@@ -1,14 +1,16 @@
-import { registerSettings } from "./settings.js";
+import { Settings } from "./settings.js";
 import { buildActor } from "./buildActor.js";
 import { logger } from "./util.js";
 
-Hooks.once("init", async () => {
-  logger("Initalizing Statblock Importer...");
-  registerSettings();
+Hooks.once("init", async () => {});
+Hooks.once("setup", () => {});
+Hooks.once("ready", () => {
+  //game.packs isn't ready til ready
+  logger("Initalizing SWADE Statblock Importer...");
+  Settings.registerSettings();
   logger("Done Initializing!");
 });
-Hooks.once("setup", () => {});
-Hooks.once("ready", () => {});
+
 Hooks.on("renderActorDirectory", (app, html, data) => {
   const importButton = $(
     '<button  style="min-width: 96%; margin: 10px 6px;">Statblock Import</button>'
