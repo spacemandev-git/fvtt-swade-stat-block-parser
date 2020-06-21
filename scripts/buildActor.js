@@ -1,5 +1,6 @@
 import { logger } from "./util.js";
 import { importActor } from "./importActor.js";
+import { buildActorGear } from "./buildActorGear.js";
 export const buildActor = async function (actorName, statblock, actorType) {
   statblock = statblock.replace(/(\r\n|\n|\r)/gm, " ");
   //logger(game.settings.get("statblock-importer", "importer.lang"));
@@ -125,36 +126,6 @@ function buildActorPowers(edges, statblock) {
   }
 
   return arcaneList;
-}
-
-function buildActorGear(statblock) {
-  let gear = {};
-  let sectionHeader = game.i18n.localize("Statblock_Section.Gear");
-  let startIndex = statblock.indexOf(sectionHeader) + sectionHeader.length;
-  if (statblock.indexOf(sectionHeader) == -1) {
-    return gear; // No gear section
-  }
-  let endIndex = getNextKeywordIndex(startIndex, statblock);
-  let gearList = statblock.slice(startIndex, endIndex).split("),");
-  gearList.map((g) => {
-    let gearName = g.split("(")[0].trim();
-    let gearDescription = g.split("(")[1].split(")")[0];
-
-    if (gearName.split("×")[1]) {
-      gear[gearName.split("×")[1].trim().slice(0, -1)] = {
-        name: gearName.split("×")[1].trim().slice(0, -1),
-        description: gearDescription,
-        quantity: parseInt(gearName.split("×")[0]),
-      };
-    } else {
-      gear[gearName] = {
-        name: gearName,
-        description: gearDescription,
-        quantity: 1,
-      };
-    }
-  });
-  return gear;
 }
 
 function buildActorEdges(statblock) {
@@ -314,7 +285,7 @@ function buildActorDescription(statblock) {
   return desc;
 }
 
-function getNextKeywordIndex(startingIndex, statblock) {
+export function getNextKeywordIndex(startingIndex, statblock) {
   let charAtList = [];
   let keywords = Object.keys(game.i18n.translations["Statblock_Section"]).map(
     (key) => {

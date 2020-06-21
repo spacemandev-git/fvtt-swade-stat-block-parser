@@ -45,43 +45,19 @@ async function importActorGear(actor) {
       gearList.push(gearItem);
       continue;
     }
+
     //item does not exist
-    /*     
-    let newGear = await Item.create({
+    let newGearItem = await Item.create({
       name: gearNames[g],
-      type: "gear",
-      img: "systems/swade/assets/icons/gear.svg",
-      data: {
-        description: actor.gear[gearNames[g]].description,
-      },
+      type: actor.gear[gearNames[g]].type,
+      img: actor.gear[gearNames[g]].img,
+      data: actor.gear[gearNames[g]].data,
     });
-    await addToStatblockCompendium(newItem, "gear"); */
+    await addToStatblockCompendium(newGearItem, actor.gear[gearNames[g]].type);
     //Build Gear Item will parse and add to Correct Compendiums
-    let newGearItem = await buildNewGearItem(actor.gear[gearNames[g]]);
     gearList.push(newGearItem);
   }
   return gearList;
-}
-
-async function buildNewGearItem(item) {
-  //Item = actor.gear[i]
-
-  // Weapons will have RANGE attribute
-  // Shields will have PARRY attribute
-  // Armor will have ARMOR attribute
-  // Otherwise it's gear
-  let newGear = await Item.create({
-    name: item.name,
-    type: "gear",
-    img: "systems/swade/assets/icons/gear.svg",
-    data: {
-      description: item.description,
-      quantity: item.quantity,
-    },
-  });
-  await addToStatblockCompendium(newGear, "gear");
-  return newGear;
-  //Add to Correct Gear Compendium
 }
 
 async function importActorPowers(actor) {
@@ -224,7 +200,7 @@ async function searchCompendiumsForItem(itemName, itemType) {
     if (!game.settings.get(mod, pack.replace(".", "-") + "-excluded")) {
       itemPacks.push(game.packs.get(pack));
     } else {
-      logger(`Excluding pack ${pack} during item lookup`);
+      //logger(`Excluding pack ${pack} during item lookup`);
     }
   }
 

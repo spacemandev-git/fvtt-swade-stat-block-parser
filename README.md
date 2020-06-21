@@ -13,7 +13,7 @@ Future Features:
 - Exclude Compendiums (DONE)
 - Create Compendiums for Imported Items (DONE)
 - Gear Parsing for Weapons/Shields/Armor
-- T (A) rather than T + A read out
+- T (A) rather than T + A read out (DONE)
 - Auto equip items on import
 
 Future:
