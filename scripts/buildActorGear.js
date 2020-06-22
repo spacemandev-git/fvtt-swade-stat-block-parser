@@ -1,5 +1,7 @@
 import { getNextKeywordIndex } from "./buildActor.js";
 import { logger } from "./util.js";
+
+const dieRegex = /(\d*)(D\d*)((?:[+*-](?:\d+|\([A-Z]*\)))*)(?:\+(D\d*))?/gi;
 export const buildActorGear = function (statblock) {
   let actorGear = {};
   /*
@@ -25,7 +27,6 @@ export const buildActorGear = function (statblock) {
       gearList[i].split("(").length > 1
         ? gearList[i].split("(")[1].split(")")[0].trim()
         : "";
-    logger("Gear Info String: " + gearInfoString);
     let gearData = {
       type: "gear",
       img: "",
@@ -40,11 +41,11 @@ export const buildActorGear = function (statblock) {
       continue;
     } //if no more info for the gear item than name, then we can't parse it anyway
 
-    let lDmg = game.i18n.localize("Statblock_Gear_Weapons.Damage");
+    //let lDmg = game.i18n.localize("Statblock_Gear_Weapons.Damage");
     let lAmr = game.i18n.localize("Statblock_Gear_Armor.Armor");
     let lShd = game.i18n.localize("Statblock_Gear_Shield.Cover");
 
-    if (gearInfoString.indexOf(lDmg) != -1) {
+    if (dieRegex.exec(gearInfoString) != null) {
       gearData.type = "weapon";
       gearData.img = "systems/swade/assets/icons/weapon.svg";
       gearData.data = getWeaponData(gearInfoString);
@@ -82,6 +83,28 @@ function getWeaponData(infoString) {
     shots: 0,
     notes: "",
   };
+  /*
+  let properties = infoString.split(",");
+  let lrange = game.i18n.localize("Statblock_Gear_Weapons.Range");
+
+  for (let i = 0; i < properties.length; i++) {
+    if (properties[i].indexOf(lrange) != -1) {
+      data.range = properties[i].split(lrange)[1].trim();
+    } else if (dieRegex.exec(gearInfoString) != null) {
+      //Set damage on first match, else it's probably talking about bonus dmg and we can set that
+      if (data.damage == "") {
+        let dmgparts = properties[i].split(" ");
+        for (let d = 0; d < dmgparts.length; d++){
+          if (data.damage == "") {
+            
+          }
+        }
+      } else {
+        //add section to notes
+      }
+    }
+  }
+  */
   return data;
 }
 
