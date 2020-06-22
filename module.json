@@ -23,6 +23,6 @@
   "url": "https://github.com/Brownie79/fvtt-swade-statblock-parser",
   "minimumCoreVersion": "0.6.0",
   "compatibleCoreVersion": "0.6.2",
-  "manifest": "https://raw.githubusercontent.com/Brownie79/fvtt-swade-statblock-parser/master/module.json",
+  "manifest": "https://raw.githubusercontent.com/Brownie79/fvtt-swade-stat-block-parser/master/module.json",
   "download": "https://github.com/Brownie79/fvtt-swade-stat-block-parser/archive/v1.1.0.zip"
 }
