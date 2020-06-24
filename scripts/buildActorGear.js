@@ -1,7 +1,9 @@
 import { getNextKeywordIndex } from "./buildActor.js";
 import { logger } from "./util.js";
 
-const dieRegex = /(\d*)(D\d*)((?:[+*-](?:\d+|\([A-Z]*\)))*)(?:\+(D\d*))?/gi;
+//const dieRegex = /(\d*)(D\d*)((?:[+*-](?:\d+|\([A-Z]*\)))*)(?:\+(D\d*))?/gi;
+const dieRegex = /(\d+)?d(\d+)([\+\-]\d+)?/gi;
+const strRegex = /(^str\+|^Str\+|^Strength\+)/;
 export const buildActorGear = function (statblock) {
   let actorGear = {};
   /*
@@ -83,28 +85,108 @@ function getWeaponData(infoString) {
     shots: 0,
     notes: "",
   };
-  /*
+  let properties = [];
+  if (infoString.split(";").length > 1) {
+    data.notes = infoString.split(";")[1].split(")")[0];
+    properties = infoString.split(";")[0].split(",");
+  } else {
+    properties = infoString.split(",");
+  }
+  logger(`Weapon Properties: ${properties}`);
+
+  let lRange = game.i18n.localize("Statblock_Gear_Weapons.Range");
+  let lRof = game.i18n.localize("Statblock_Gear_Weapons.RoF");
+  let lAP = game.i18n.localize("Statblock_Gear_Weapons.AP");
+  let lShots = game.i18n.localize("Statblock_Gear_Weapons.Shots");
+  for (let i = 0; i < properties.length; i++) {
+    //for whatever reason the exec doesn't work in a if statement
+    let dieRegexResult = dieRegex.exec(properties[i].trim());
+    let strRegexResult = strRegex.exec(properties[i].trim());
+    logger(`Die Regex Result: ${properties[i]} : ${dieRegexResult}`);
+    logger(`Str Regex Result: ${properties[i]} : ${strRegexResult}`);
+    if (properties[i].indexOf(lRange) != -1) {
+      logger(`Range String: ${properties[i]}`);
+      data.range = properties[i].split(" ")[1];
+    } else if (dieRegexResult || strRegexResult) {
+      logger(`Damage String: ${properties[i]}`);
+      if (data.damage == "") {
+        logger(
+          `Data Damage evaluated to empty: ${properties[i]} : ${JSON.stringify(
+            data
+          )}`
+        );
+        let dmgparts = properties[i].split(" ");
+
+        for (let part of dmgparts) {
+          let isDieFormula = dieRegex.exec(part);
+          if (!isDieFormula) {
+            isDieFormula = strRegex.exec(part);
+          }
+          if (isDieFormula) {
+            data.damage = part.replace(/str|Str|Strength/, "@str");
+          }
+        }
+      }
+    } else {
+    }
+  }
+
+  return data;
+}
+
+function getWeaponData2(infoString) {
+  let data = {
+    range: "",
+    damage: "",
+    rof: 1,
+    ap: 0,
+    shots: 0,
+    notes: "",
+  };
+
   let properties = infoString.split(",");
-  let lrange = game.i18n.localize("Statblock_Gear_Weapons.Range");
+  console.log(properties);
+  let lRange = game.i18n.localize("Statblock_Gear_Weapons.Range");
+  let lRof = game.i18n.localize("Statblock_Gear_Weapons.RoF");
+  let lAP = game.i18n.localize("Statblock_Gear_Weapons.AP");
+  let lShots = game.i18n.localize("Statblock_Gear_Weapons.Shots");
 
   for (let i = 0; i < properties.length; i++) {
-    if (properties[i].indexOf(lrange) != -1) {
-      data.range = properties[i].split(lrange)[1].trim();
-    } else if (dieRegex.exec(gearInfoString) != null) {
+    if (properties[i].indexOf(lRange) != -1) {
+      data.range = properties[i].split(lRange)[1].trim();
+    } else if (dieRegex.exec(" " + properties[i].trim()) != null) {
       //Set damage on first match, else it's probably talking about bonus dmg and we can set that
       if (data.damage == "") {
         let dmgparts = properties[i].split(" ");
-        for (let d = 0; d < dmgparts.length; d++){
+        for (let d = 0; d < dmgparts.length; d++) {
           if (data.damage == "") {
-            
+            if (dieRegex.exec(" " + dmgparts[d]) != null) {
+              data.damage = dmgparts[d]
+                .trim()
+                .replace(/str|Str|Strength/, "@str");
+            }
+          } else if (dmgparts[d].toLowerCase() != "damage") {
+            data.notes += dmgparts[d] + ";";
           }
         }
+      } else if (properties[i].indexOf(lRof) != -1) {
+        //RoF 1, 1 RoF, etc
+        data.rof = properties[i]
+          .split(" ")
+          .find((el) => el.indexOf(lRof) == -1);
+      } else if (properties[i].indexOf(lAP) != -1) {
+        data.ap = properties[i].split(" ").find((el) => el.indexOf(lAP) == -1);
+      } else if (properties[i].indexOf(lShots) != -1) {
+        data.shots = properties[i]
+          .split(" ")
+          .find((el) => el.indexOf(lShots) == -1);
       } else {
-        //add section to notes
+        //add the whole string section to notes
+        data.notes += properties[i];
       }
     }
   }
-  */
+
   return data;
 }
 
@@ -113,6 +195,8 @@ function getArmorData(infoString) {
     armor: "0",
     notes: "",
   };
+
+  // Armor +2 but also if just (+2)
   return data;
 }
 

@@ -24,6 +24,8 @@ Future:
 - Parse Size from special abilities
 - Bulk Import
 - Option to add Special Abilities as Edges
+- Theme based paring for vareity of books
+- 
 
 Adminstrative todos;
 

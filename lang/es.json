@@ -11,12 +11,22 @@
   "Statblock_Section.Powers": "Poderes:",
   "Statblock_Section.Powers_Multi": "Poderes (",
   "Statblock_Section.Gear": "Equipo:",
-
   "Statblock_Section.Specials": "Capacidades especiales:",
-  "Statblock_Section.Cybernetics": "Sistemas Cibernéticos:",
-  "Statblock_Section.Charisma": "Carisma:",
-  "Statblock_Section.Booty": "Botín:",
+
+  "Statblock_Section.Themes_Rifts_Cybernetics": "Sistemas Cibernéticos:",
+  "Statblock_Section.Themes_SWD_Charisma": "Carisma:",
+  "Statblock_Section.Themes_50F_Booty": "Botín:",
 
   "Statblock_Quirks.Powers_And": " y ",
-  "Statblock_Quirks.Hindrances_Major": "Mayor"
+  "Statblock_Quirks.Hindrances_Major": "Mayor",
+
+  "Statblock_Gear_Weapons.Range": "Dist.",
+  "Statblock_Gear_Weapons.Damage": "daño",
+  "Statblock_Gear_Weapons.RoF": "RoF",
+  "Statblock_Gear_Weapons.AP": "PA",
+  "Statblock_Gear_Weapons.Shots": "Shots",
+  "Statblock_Gear_Armor.Armor": "Armor",
+  "Statblock_Gear_Shield.Cover": "Cover",
+  "Statblock_Gear_Shield.Parry": "Parada",
+  "Statblock_Settings.ExcludeCompendiums": "Exclude Compendiums"
 }
