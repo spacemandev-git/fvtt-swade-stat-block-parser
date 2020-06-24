@@ -151,12 +151,16 @@ function getArmorData(infoString) {
     notes: "",
   };
   let lArmor = game.i18n.localize("Statblock_Gear_Armor.Armor");
-  let parts = infoString.split(" ");
+  let parts = infoString.split(",");
   for (let aPart of parts) {
-    if (aPart.indexOf(lArmor) == -1) {
-      data.armor = aPart;
+    if (aPart.indexOf(lArmor) != -1) {
+      for (let p of aPart.split(" ")) {
+        if (p.indexOf(lArmor) == -1) {
+          data.armor = p;
+        }
+      }
     } else {
-      data.notes += aPart = ";";
+      data.notes += aPart + ";";
     }
   }
   return data;

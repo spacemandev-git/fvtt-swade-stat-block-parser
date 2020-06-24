@@ -9,8 +9,7 @@ Because of the localization, if you try to import English statblocks while you h
 Future Features:
 
 1.2.0 Release:
-- Gear Parsing for Weapons/Shields/Armor
-- Auto equip items on import
+- Gear Parsing for Weapons/Shields/Armor (DONE)
 
 1.1.0 Release:
 
@@ -19,6 +18,7 @@ Future Features:
 - T (A) rather than T + A read out (DONE)
 
 Future:
+- Auto equip items on import
 - Allow parsing of any suported language while in any langauge setting
 - Add IMG path to text file parsing
 - Parse Size from special abilities
