@@ -25,7 +25,8 @@ Future:
 - Bulk Import
 - Option to add Special Abilities as Edges
 - Theme based paring for vareity of books
-- 
+- Replace hardcoding Str => @str replacement in damage parser with dynamic one that pulls from localization
+- Parse armor that has only one value in it : ArmorName (+2)
 
 Adminstrative todos;
 

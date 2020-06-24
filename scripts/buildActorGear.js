@@ -102,19 +102,10 @@ function getWeaponData(infoString) {
     //for whatever reason the exec doesn't work in a if statement
     let dieRegexResult = dieRegex.exec(properties[i].trim());
     let strRegexResult = strRegex.exec(properties[i].trim());
-    logger(`Die Regex Result: ${properties[i]} : ${dieRegexResult}`);
-    logger(`Str Regex Result: ${properties[i]} : ${strRegexResult}`);
     if (properties[i].indexOf(lRange) != -1) {
-      logger(`Range String: ${properties[i]}`);
       data.range = properties[i].split(" ")[1];
     } else if (dieRegexResult || strRegexResult) {
-      logger(`Damage String: ${properties[i]}`);
       if (data.damage == "") {
-        logger(
-          `Data Damage evaluated to empty: ${properties[i]} : ${JSON.stringify(
-            data
-          )}`
-        );
         let dmgparts = properties[i].split(" ");
 
         for (let part of dmgparts) {
@@ -123,11 +114,19 @@ function getWeaponData(infoString) {
             isDieFormula = strRegex.exec(part);
           }
           if (isDieFormula) {
-            data.damage = part.replace(/str|Str|Strength/, "@str");
+            let strString = /str|Str|Strength|fue|Fue|Fuerza/;
+            data.damage = part.replace(strString, "@str");
           }
         }
+      } else {
+        data.notes += properties[i] + ";";
       }
-    } else {
+    } else if (properties[i].indexOf(lAP) != -1) {
+      data.ap = properties[i].split(" ").find((el) => el.indexOf(lAP) == -1);
+    } else if (properties[i].indexOf(lShots) != -1) {
+      data.shots = properties[i]
+        .split(" ")
+        .find((el) => el.indexOf(lShots) == -1);
     }
   }
 
