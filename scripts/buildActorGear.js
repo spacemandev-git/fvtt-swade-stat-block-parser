@@ -122,11 +122,23 @@ function getWeaponData(infoString) {
         data.notes += properties[i] + ";";
       }
     } else if (properties[i].indexOf(lAP) != -1) {
-      data.ap = properties[i].split(" ").find((el) => el.indexOf(lAP) == -1);
+      for (let apPart of properties[i].split(" ")) {
+        if (apPart.indexOf(lAP) == -1) {
+          data.ap = apPart;
+        }
+      }
     } else if (properties[i].indexOf(lShots) != -1) {
-      data.shots = properties[i]
-        .split(" ")
-        .find((el) => el.indexOf(lShots) == -1);
+      for (let shotsPart of properties[i].split(" ")) {
+        if (shotsPart.indexOf(lAP) == -1) {
+          data.shots = shotsPart;
+        }
+      }
+    } else if (properties[i].indexOf(lRof) != -1) {
+      for (let rofPart of properties[i].split(" ")) {
+        if (rofPart.indexOf(lAP) == -1) {
+          data.rof = rofPart;
+        }
+      }
     }
   }
 
