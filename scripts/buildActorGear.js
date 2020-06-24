@@ -145,69 +145,20 @@ function getWeaponData(infoString) {
   return data;
 }
 
-function getWeaponData2(infoString) {
-  let data = {
-    range: "",
-    damage: "",
-    rof: 1,
-    ap: 0,
-    shots: 0,
-    notes: "",
-  };
-
-  let properties = infoString.split(",");
-  console.log(properties);
-  let lRange = game.i18n.localize("Statblock_Gear_Weapons.Range");
-  let lRof = game.i18n.localize("Statblock_Gear_Weapons.RoF");
-  let lAP = game.i18n.localize("Statblock_Gear_Weapons.AP");
-  let lShots = game.i18n.localize("Statblock_Gear_Weapons.Shots");
-
-  for (let i = 0; i < properties.length; i++) {
-    if (properties[i].indexOf(lRange) != -1) {
-      data.range = properties[i].split(lRange)[1].trim();
-    } else if (dieRegex.exec(" " + properties[i].trim()) != null) {
-      //Set damage on first match, else it's probably talking about bonus dmg and we can set that
-      if (data.damage == "") {
-        let dmgparts = properties[i].split(" ");
-        for (let d = 0; d < dmgparts.length; d++) {
-          if (data.damage == "") {
-            if (dieRegex.exec(" " + dmgparts[d]) != null) {
-              data.damage = dmgparts[d]
-                .trim()
-                .replace(/str|Str|Strength/, "@str");
-            }
-          } else if (dmgparts[d].toLowerCase() != "damage") {
-            data.notes += dmgparts[d] + ";";
-          }
-        }
-      } else if (properties[i].indexOf(lRof) != -1) {
-        //RoF 1, 1 RoF, etc
-        data.rof = properties[i]
-          .split(" ")
-          .find((el) => el.indexOf(lRof) == -1);
-      } else if (properties[i].indexOf(lAP) != -1) {
-        data.ap = properties[i].split(" ").find((el) => el.indexOf(lAP) == -1);
-      } else if (properties[i].indexOf(lShots) != -1) {
-        data.shots = properties[i]
-          .split(" ")
-          .find((el) => el.indexOf(lShots) == -1);
-      } else {
-        //add the whole string section to notes
-        data.notes += properties[i];
-      }
-    }
-  }
-
-  return data;
-}
-
 function getArmorData(infoString) {
   let data = {
     armor: "0",
     notes: "",
   };
-
-  // Armor +2 but also if just (+2)
+  let lArmor = game.i18n.localize("Statblock_Gear_Armor.Armor");
+  let parts = infoString.split(" ");
+  for (let aPart of parts) {
+    if (aPart.indexOf(lArmor) == -1) {
+      data.armor = aPart;
+    } else {
+      data.notes += aPart = ";";
+    }
+  }
   return data;
 }
 
