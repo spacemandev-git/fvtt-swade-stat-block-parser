@@ -87,7 +87,7 @@ function getWeaponData(infoString) {
   };
   let properties = [];
   if (infoString.split(";").length > 1) {
-    data.notes = infoString.split(";")[1].split(")")[0];
+    data.notes = infoString.split(";")[1];
     properties = infoString.split(";")[0].split(",");
   } else {
     properties = infoString.split(",");
@@ -168,5 +168,24 @@ function getShieldData(infoString) {
     cover: "0",
     notes: "",
   };
+  let lParry = game.i18n.localize("Statblock_Gear_Shield.Parry");
+  let lCover = game.i18n.localize("Statblock_Gear_Shield.Cover");
+  for (let part of infoString.split(",")) {
+    if (part.indexOf(lParry) != -1) {
+      for (let pPart of part.split(" ")) {
+        if (pPart.indexOf(lParry) == -1 && data.parry == "") {
+          data.parry = lParry;
+        }
+      }
+    } else if (part.indexOf(lCover) != -1) {
+      for (let cPart of part.split(" ")) {
+        if (cPart.indexOf(lCover) == -1 && data.cover == "") {
+          data.cover = cPart;
+        }
+      }
+    } else {
+      data.notes += part + ";";
+    }
+  }
   return data;
 }
