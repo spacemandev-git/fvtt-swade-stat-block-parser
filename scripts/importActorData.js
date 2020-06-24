@@ -5,7 +5,9 @@ export const importActorData = function (actor) {
   data.stats = {
     speed: { sprintDie: "1d6", value: actor.pace },
     toughness: {
-      value: actor.toughness.value + `${actor.toughness.armor}`,
+      value:
+        actor.toughness.value +
+        (actor.toughness.armor > 0 ? `(${actor.toughness.armor})` : ""),
     },
     parry: actor.parry,
     size: 0,
