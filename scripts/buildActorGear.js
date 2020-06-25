@@ -84,6 +84,7 @@ function getWeaponData(infoString) {
     ap: 0,
     shots: 0,
     notes: "",
+    equipped: true,
   };
   let properties = [];
   if (infoString.split(";").length > 1) {
@@ -149,6 +150,7 @@ function getArmorData(infoString) {
   let data = {
     armor: "0",
     notes: "",
+    equipped: true,
   };
   let lArmor = game.i18n.localize("Statblock_Gear_Armor.Armor");
 
@@ -178,6 +180,7 @@ function getShieldData(infoString) {
     parry: "0",
     cover: "0",
     notes: "",
+    equipped: true,
   };
   let lParry = game.i18n.localize("Statblock_Gear_Shield.Parry");
   let lCover = game.i18n.localize("Statblock_Gear_Shield.Cover");

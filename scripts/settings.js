@@ -47,7 +47,7 @@ async function createCompendiums() {
   for (let i = 0; i < typesList.length; i++) {
     let type = typesList[i];
     if (
-      itemCompendiumList.find((c) => c == `${mod}.statblock-${type}`) ==
+      itemCompendiumList.find((c) => c == `world.${mod}.statblock-${type}`) ==
       undefined
     ) {
       logger(`Creating Compendium ${mod}.statblock-${type}`);
