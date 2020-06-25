@@ -24,18 +24,21 @@ async function importActorGear(actor) {
     let wepItem = await searchCompendiumsForItem(gearNames[g], "weapon");
     if (wepItem != null) {
       wepItem.data.quantity = actor.gear[gearNames[g]].quantity;
+      wepItem.data.equipped = true;
       gearList.push(wepItem);
       continue;
     }
     let armorItem = await searchCompendiumsForItem(gearNames[g], "armor");
     if (armorItem != null) {
       armorItem.data.quantity = actor.gear[gearNames[g]].quantity;
+      armorItem.data.equipped = true;
       gearList.push(armorItem);
       continue;
     }
     let shieldItem = await searchCompendiumsForItem(gearNames[g], "shield");
     if (shieldItem != null) {
       shieldItem.data.quantity = actor.gear[gearNames[g]].quantity;
+      shieldItem.data.equipped = true;
       gearList.push(shieldItem);
       continue;
     }

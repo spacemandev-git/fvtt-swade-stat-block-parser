@@ -120,7 +120,7 @@ function getWeaponData(infoString) {
           }
         }
       } else {
-        data.notes += properties[i] + ";";
+        data.notes += properties[i] + ",";
       }
     } else if (properties[i].indexOf(lAP) != -1) {
       for (let apPart of properties[i].split(" ")) {
@@ -156,7 +156,7 @@ function getArmorData(infoString) {
 
   let aString = infoString;
   if (infoString.split(";")[1]) {
-    data.notes += infoString.split(";")[1] + ";";
+    data.notes += infoString.split(";")[1] + ",";
     aString = infoString.split(";")[0];
   }
 
@@ -169,7 +169,7 @@ function getArmorData(infoString) {
         }
       }
     } else {
-      data.notes += aPart + ";";
+      data.notes += aPart + ",";
     }
   }
   return data;
@@ -198,7 +198,7 @@ function getShieldData(infoString) {
         }
       }
     } else {
-      data.notes += part + ";";
+      data.notes += part + ",";
     }
   }
   return data;
