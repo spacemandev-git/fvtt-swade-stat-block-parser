@@ -19,7 +19,7 @@ export const buildActorGear = function (statblock) {
   let sectionHeader = game.i18n.localize("Statblock_Section.Gear");
   let startIndex = statblock.indexOf(sectionHeader) + sectionHeader.length;
   if (statblock.indexOf(sectionHeader) == -1) {
-    return gear; // No gear section
+    return actorGear; // No gear section
   }
   let endIndex = getNextKeywordIndex(startIndex, statblock);
   let gearList = statblock.slice(startIndex, endIndex).split("),");
