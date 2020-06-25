@@ -221,8 +221,8 @@ function buildActorToughness(statblock) {
   }
   let endIndex = getNextKeywordIndex(startIndex, statblock);
   let rawTough = statblock.slice(startIndex, endIndex);
-  if (rawTough.split(" (")[1] != undefined) {
-    toughness.value = parseInt(rawTough.split(" (")[0]);
+  if (rawTough.split("(")[1] != undefined) {
+    toughness.value = parseInt(rawTough.split("(")[0]);
     toughness.armor = parseInt(rawTough.split("(")[1].split(")")[0]);
   } else {
     toughness.value = parseInt(rawTough);

@@ -133,10 +133,10 @@ function getWeaponData(infoString) {
           data.shots = shotsPart;
         }
       }
-    } else if (properties[i].indexOf(lRof) != -1) {
+    } else if (properties[i].toLowerCase().indexOf(lRof.toLowerCase()) != -1) {
       for (let rofPart of properties[i].split(" ")) {
         if (rofPart.indexOf(lAP) == -1) {
-          data.rof = rofPart;
+          data.rof = parseInt(rofPart);
         }
       }
     }
@@ -151,12 +151,19 @@ function getArmorData(infoString) {
     notes: "",
   };
   let lArmor = game.i18n.localize("Statblock_Gear_Armor.Armor");
-  let parts = infoString.split(",");
+
+  let aString = infoString;
+  if (infoString.split(";")[1]) {
+    data.notes += infoString.split(";")[1] + ";";
+    aString = infoString.split(";")[0];
+  }
+
+  let parts = aString.split(",");
   for (let aPart of parts) {
     if (aPart.indexOf(lArmor) != -1) {
       for (let p of aPart.split(" ")) {
-        if (p.indexOf(lArmor) == -1) {
-          data.armor = p;
+        if (p.indexOf(lArmor) == -1 && data.armor == "0") {
+          data.armor = parseInt(p).toString();
         }
       }
     } else {

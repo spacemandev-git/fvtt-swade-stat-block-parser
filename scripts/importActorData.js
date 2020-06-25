@@ -8,6 +8,7 @@ export const importActorData = function (actor) {
       value:
         actor.toughness.value +
         (actor.toughness.armor > 0 ? `(${actor.toughness.armor})` : ""),
+      armor: actor.toughness.armor,
     },
     parry: actor.parry,
     size: 0,
