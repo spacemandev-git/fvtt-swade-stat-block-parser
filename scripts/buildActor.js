@@ -65,9 +65,7 @@ function buildActorPowers(edges, statblock) {
 
   if (arcaneBackroundList.length == 1) {
     //section will just be labeled "Powers: "
-    let sectionHeader = game.i18n.localize(
-      game.i18n.localize("Statblock_Section.Powers")
-    );
+    let sectionHeader = game.i18n.localize(game.i18n.localize("Statblock_Section.Powers"));
     let startIndex = statblock.indexOf(sectionHeader) + sectionHeader.length;
     let endIndex = getNextKeywordIndex(startIndex, statblock);
     let powersSection = statblock.slice(startIndex, endIndex);
@@ -76,11 +74,7 @@ function buildActorPowers(edges, statblock) {
       .split(",")
       .map((el) => el.trim());
     //sometimes last power has the word 'and' in it
-    if (
-      powersList[powersList.length - 1].indexOf(
-        game.i18n.localize("Statblock_Quirks.Powers_And")
-      ) >= 0
-    ) {
+    if (powersList[powersList.length - 1].indexOf(game.i18n.localize("Statblock_Quirks.Powers_And")) >= 0) {
       powersList[powersList.length - 1] = powersList[powersList.length - 1]
         .split(game.i18n.localize("Statblock_Quirks.Powers_And"))[1]
         .trim();
@@ -96,9 +90,7 @@ function buildActorPowers(edges, statblock) {
   } else {
     //for each arcane list, section will be "Powers (AB): "
     for (let i = 0; i < arcaneBackroundList.length; i++) {
-      let sectionHeader = `${game.i18n.localize("SWADE.Pow")} (${
-        arcaneBackroundList[i]
-      }):`;
+      let sectionHeader = `${game.i18n.localize("SWADE.Pow")} (${arcaneBackroundList[i]}):`;
       let startIndex = statblock.indexOf(sectionHeader) + sectionHeader.length;
       let endIndex = getNextKeywordIndex(startIndex, statblock);
       let pSection = statblock.slice(startIndex, endIndex);
@@ -106,11 +98,7 @@ function buildActorPowers(edges, statblock) {
         .split(".")[0]
         .split(",")
         .map((el) => el.trim());
-      if (
-        pList[pList.length - 1].indexOf(
-          game.i18n.localize("Statblock_Quirks.Powers_And")
-        ) >= 0
-      ) {
+      if (pList[pList.length - 1].indexOf(game.i18n.localize("Statblock_Quirks.Powers_And")) >= 0) {
         pList[pList.length - 1] = pList[pList.length - 1]
           .split(game.i18n.localize("Statblock_Quirks.Powers_And"))[1]
           .trim();
@@ -166,14 +154,8 @@ function buildActorHindrances(statblock) {
     let note = "";
     // modify major based on if there's a () with more information
     if (h.split("(")[1]) {
-      major =
-        h.split("(")[1].split("—")[0] ==
-        game.i18n.localize("Statblock_Quirks.Hindrances_Major")
-          ? true
-          : false;
-      note = h.split("(")[1].split("—")[1]
-        ? h.split("(")[1].split("—")[1].split(")")[0]
-        : "";
+      major = h.split("(")[1].split("—")[0] == game.i18n.localize("Statblock_Quirks.Hindrances_Major") ? true : false;
+      note = h.split("(")[1].split("—")[1] ? h.split("(")[1].split("—")[1].split(")")[0] : "";
     }
     hindrances[h.split(" (")[0]] = {
       name: h.split(" (")[0],
@@ -265,7 +247,7 @@ function buildActorAttributes(statblock) {
   let attrList = statblock.slice(startIndex, endIndex).split(",");
   attrList = attrList.map((attr) => attr.trim());
   attrList.map((attr) => {
-    let attrName = attr.split(" d")[0];
+    let attrName = attr.split(" d")[0].trim();
     let die = attr.split(" d")[1];
     attributes[attrName.toLowerCase()] = {
       die: {
@@ -287,11 +269,9 @@ function buildActorDescription(statblock) {
 
 export function getNextKeywordIndex(startingIndex, statblock) {
   let charAtList = [];
-  let keywords = Object.keys(game.i18n.translations["Statblock_Section"]).map(
-    (key) => {
-      return game.i18n.translations["Statblock_Section"][key];
-    }
-  );
+  let keywords = Object.keys(game.i18n.translations["Statblock_Section"]).map((key) => {
+    return game.i18n.translations["Statblock_Section"][key];
+  });
 
   //get all the index values of keywords that come after the starting Index
   keywords.map((keyword) => {
