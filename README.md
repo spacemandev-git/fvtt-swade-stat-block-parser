@@ -1,3 +1,5 @@
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/K3K11VCDK)
+
 Need to prefix statblock special abilities section with '@' for it to read them. If you do not use @ nothing bad will happen, it just won't know what the special abilities are and will ignore them.
 
 It does NOT search through your items, only through compendiums, so it might end up creating multiple copies of an item if you never add the new item to your compendium.
