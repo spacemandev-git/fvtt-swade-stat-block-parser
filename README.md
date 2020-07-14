@@ -18,7 +18,7 @@ Future Features:
 - T (A) rather than T + A read out (DONE)
 
 Future:
-- Auto equip items on import
+- Auto equip items on import (DONE)
 - Allow parsing of any suported language while in any langauge setting
 - Add IMG path to text file parsing
 - Parse Size from special abilities
