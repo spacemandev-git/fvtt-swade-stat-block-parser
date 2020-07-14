@@ -16,12 +16,7 @@ export class Settings {
     let itemCompendiumList = getItemCompendiums();
     for (let i = 0; i < itemCompendiumList.length; i++) {
       let compendium = itemCompendiumList[i];
-      logger(
-        `Registering Setting for ${compendium} as ${compendium.replace(
-          ".",
-          "-"
-        )}-excluded`
-      );
+      logger(`Registering Setting for ${compendium} as ${compendium.replace(".", "-")}-excluded`);
       game.settings.register(mod, compendium.replace(".", "-") + "-excluded", {
         scope: "world",
         config: false,
@@ -34,19 +29,10 @@ export class Settings {
 
 async function createCompendiums() {
   let itemCompendiumList = getItemCompendiums();
-  let typesList = [
-    "weapon",
-    "armor",
-    "shield",
-    "gear",
-    "skill",
-    "edge",
-    "hindrance",
-    "power",
-  ];
+  let typesList = ["weapon", "armor", "shield", "gear", "skill", "edge", "hindrance", "power"];
   for (let i = 0; i < typesList.length; i++) {
     let type = typesList[i];
-    if (itemCompendiumList[`${mod}.statblock-${type}`] == undefined) {
+    if (itemCompendiumList.includes(`world.${mod}.statblock-${type}`) == false) {
       logger(`Creating Compendium ${mod}.statblock-${type}`);
       await Compendium.create({
         name: `${mod}.statblock-${type}`,
@@ -65,8 +51,7 @@ class SettingsForm extends FormApplication {
     return mergeObject(super.defaultOptions, {
       id: mod + ".excludeCompendiums",
       title: game.i18n.localize("Statblock_Settings.ExcludeCompendiums"),
-      template:
-        "modules/fvtt-swade-stat-block-parser/templates/ExcludeCompendiums.html",
+      template: "modules/fvtt-swade-stat-block-parser/templates/ExcludeCompendiums.html",
       classes: ["sheet"],
       width: 350,
       closeOnSubmit: true,
@@ -84,10 +69,7 @@ class SettingsForm extends FormApplication {
     for (let i = 0; i < itemCompendiumList.length; i++) {
       data.compendiums.push({
         name: itemCompendiumList[i],
-        value: game.settings.get(
-          mod,
-          itemCompendiumList[i].replace(".", "-") + "-excluded"
-        ),
+        value: game.settings.get(mod, itemCompendiumList[i].replace(".", "-") + "-excluded"),
         label: game.packs.get(itemCompendiumList[i]).metadata.label,
       });
     }
