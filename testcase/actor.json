@@ -1,0 +1,262 @@
+{
+    "name": "Mech",
+    "permission": {
+        "default": 0,
+        "TJBTpp6UQDRvYuMn": 3
+    },
+    "type": "npc",
+    "data": {
+        "attributes": {
+            "agility": {
+                "die": {
+                    "sides": 4,
+                    "modifier": 0
+                },
+                "wild-die": {
+                    "sides": 6
+                }
+            },
+            "smarts": {
+                "die": {
+                    "sides": 6,
+                    "modifier": 0
+                },
+                "wild-die": {
+                    "sides": 6
+                }
+            },
+            "spirit": {
+                "die": {
+                    "sides": 4,
+                    "modifier": 0
+                },
+                "wild-die": {
+                    "sides": 6
+                }
+            },
+            "strength": {
+                "die": {
+                    "sides": 12,
+                    "modifier": 4
+                },
+                "wild-die": {
+                    "sides": 6
+                }
+            },
+            "vigor": {
+                "die": {
+                    "sides": 8,
+                    "modifier": 0
+                },
+                "wild-die": {
+                    "sides": 6
+                }
+            }
+        },
+        "stats": {
+            "speed": {
+                "sprintDie": "1d6",
+                "value": 10
+            },
+            "toughness": {
+                "value": "14(4)",
+                "armor": 4,
+                "modifier": 0
+            },
+            "parry": {
+                "value": 5,
+                "modifier": 0
+            },
+            "size": 0
+        },
+        "details": {
+            "biography": {
+                "value": "These stats are for a 12-foot-tall mechanized sentinel, as found in a hard scifi campaign. This is a light patrol-style platform with reasonable intelligence, a sensor package, and high maneuverability. Larger mechs outfitted for battle have substantially more armor, are larger, and have more specialized weaponry. <p></p><p></p><p>+ Armor +4 : </p><p>+ Construct : +2 to recover from being Shaken; ignores 1 point of Wound penalties; does not breathe or suffer from disease or poison.</p><p>+Fearless : Mechs are immune to Fear and Intimidation, but may be smart enough to react to fear-causing situations aptly.</p><p>+ Night Vision : Sensor packages ignore penalties for Illumination.</p><p>+ Size 4 (Large) : The mech stands 15′ tall</p>"
+            },
+            "species": {
+                "name": ""
+            },
+            "currency": 500,
+            "conviction": {
+                "value": 0,
+                "active": false
+            },
+            "autoCalcToughness": false
+        },
+        "powerPoints": {},
+        "fatigue": {
+            "value": 0,
+            "min": 0,
+            "max": 2
+        },
+        "wounds": {
+            "value": 0,
+            "min": 0,
+            "max": 3,
+            "ignored": 0
+        },
+        "advances": {
+            "value": 0,
+            "rank": "Novice",
+            "details": ""
+        },
+        "bennies": {
+            "value": 2,
+            "max": 2
+        },
+        "owned": {
+            "gear": [],
+            "weapons": [],
+            "armors": [],
+            "shields": [],
+            "edges": [],
+            "hindrances": [],
+            "skills": [],
+            "powers": [],
+            "inventory": []
+        },
+        "status": {
+            "isShaken": false,
+            "isDistracted": false,
+            "isVulnerable": false
+        },
+        "initiative": {
+            "hasHesitant": false,
+            "hasLevelHeaded": false,
+            "hasImpLevelHeaded": false
+        },
+        "additionalStats": {},
+        "wildcard": false
+    },
+    "sort": 100001,
+    "flags": {},
+    "token": {
+        "flags": {},
+        "name": "Mech",
+        "displayName": 0,
+        "img": "icons/svg/mystery-man.svg",
+        "tint": null,
+        "width": 1,
+        "height": 1,
+        "scale": 1,
+        "lockRotation": false,
+        "rotation": 0,
+        "vision": false,
+        "dimSight": 0,
+        "brightSight": 0,
+        "dimLight": 0,
+        "brightLight": 0,
+        "sightAngle": 360,
+        "lightAngle": 360,
+        "lightAlpha": 1,
+        "actorId": "Kb4sto0IfOInLLa1",
+        "actorLink": false,
+        "actorData": {},
+        "disposition": -1,
+        "displayBars": 0,
+        "bar1": {},
+        "bar2": {},
+        "randomImg": false
+    },
+    "items": [
+        {
+            "_id": "T54e5dX5nFU7xvtg",
+            "flags": {},
+            "name": "Typically a machine gun or flamethrower.",
+            "type": "gear",
+            "img": "systems/swade/assets/icons/gear.svg",
+            "data": {
+                "description": "",
+                "notes": "",
+                "additionalStats": {},
+                "quantity": 1,
+                "weight": 0,
+                "price": 0,
+                "equippable": false,
+                "equipped": false,
+                "isVehicular": false,
+                "mods": 1
+            },
+            "sort": 100001
+        },
+        {
+            "_id": "nuApFswcq0JB132r",
+            "flags": {},
+            "name": "Fighting",
+            "type": "skill",
+            "img": "systems/swade/assets/icons/skills/punch.svg",
+            "data": {
+                "description": "See SWADE p.30",
+                "notes": "",
+                "additionalStats": {},
+                "attribute": "agility",
+                "die": {
+                    "sides": 6,
+                    "modifier": ""
+                },
+                "wild-die": {
+                    "sides": 6
+                }
+            }
+        },
+        {
+            "_id": "K9DGGRz3slZrfuaM",
+            "flags": {},
+            "name": "Notice",
+            "type": "skill",
+            "img": "systems/swade/assets/icons/skills/awareness.svg",
+            "data": {
+                "description": "See SWADE p.32",
+                "notes": "",
+                "additionalStats": {},
+                "attribute": "smarts",
+                "die": {
+                    "sides": 10,
+                    "modifier": ""
+                },
+                "wild-die": {
+                    "sides": 6
+                }
+            }
+        },
+        {
+            "_id": "Qb30gDUfXNCb8BNv",
+            "flags": {},
+            "name": "Shooting",
+            "type": "skill",
+            "img": "systems/swade/assets/icons/skills/crosshair.svg",
+            "data": {
+                "description": "See SWADE p.35",
+                "notes": "",
+                "additionalStats": {},
+                "attribute": "agility",
+                "die": {
+                    "sides": 8,
+                    "modifier": ""
+                },
+                "wild-die": {
+                    "sides": 6
+                }
+            }
+        },
+        {
+            "_id": "HsvJWWkPwuKUPPS4",
+            "flags": {},
+            "name": "Alertness (Sensors).",
+            "type": "edge",
+            "img": "systems/swade/assets/icons/edge.svg",
+            "data": {
+                "description": "",
+                "notes": "",
+                "additionalStats": {},
+                "isArcaneBackground": false,
+                "requirements": {
+                    "value": ""
+                }
+            },
+            "sort": 100001
+        }
+    ],
+    "_id": "Kb4sto0IfOInLLa1",
+    "img": "icons/svg/mystery-man.svg"
+}

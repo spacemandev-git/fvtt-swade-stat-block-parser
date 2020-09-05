@@ -1,0 +1,88 @@
+{
+    "name": "M2",
+    "type": "npc",
+    "description": "Mech These stats are for a 12-foot-tall mechanized sentinel, as found in a hard scifi campaign. This is a light patrol-style platform with reasonable intelligence, a sensor package, and high maneuverability. Larger mechs outfitted for battle have substantially more armor, are larger, and have more specialized weaponry. ",
+    "attributes": {
+        "agility": {
+            "die": {
+                "sides": 4,
+                "modifier": 0
+            }
+        },
+        "smarts": {
+            "die": {
+                "sides": 6,
+                "modifier": 0
+            }
+        },
+        "spirit": {
+            "die": {
+                "sides": 4,
+                "modifier": 0
+            }
+        },
+        "strength": {
+            "die": {
+                "sides": 12,
+                "modifier": 4
+            }
+        },
+        "vigor": {
+            "die": {
+                "sides": 8,
+                "modifier": 0
+            }
+        }
+    },
+    "skills": {
+        "Fighting": {
+            "sides": 6,
+            "modifier": ""
+        },
+        "Notice": {
+            "sides": 10,
+            "modifier": ""
+        },
+        "Shooting": {
+            "sides": 8,
+            "modifier": ""
+        }
+    },
+    "toughness": {
+        "value": 14,
+        "armor": 4,
+        "modifier": 0
+    },
+    "parry": {
+        "value": 5,
+        "modifier": 0
+    },
+    "pace": 10,
+    "hindrances": {},
+    "edges": [
+        "Alertness (Sensors)."
+    ],
+    "gear": {
+        "Typically a machine gun or flamethrower.": {
+            "type": "gear",
+            "img": "",
+            "data": {
+                "qty": 1,
+                "description": ""
+            }
+        }
+    },
+    "powers": {},
+    "specials": {
+        "edges": {
+            "Night Vision: Sensor packages ignore penalties for Illumination.": "Sensor packages ignore penalties for Illumination.",
+            "Size 4 (Large): The mech stands 15′ tall": "The mech stands 15′ tall"
+        },
+        "hindrances": {},
+        "description": {
+            "Construct": "+2 to recover from being Shaken; ignores 1 point of Wound penalties; does not breathe or suffer from disease or poison.",
+            "Fearless": "Mechs are immune to Fear and Intimidation, but may be smart enough to react to fear-causing situations aptly."
+        },
+        "Armor +4": ""
+    }
+}

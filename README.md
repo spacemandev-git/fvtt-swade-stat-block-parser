@@ -2,11 +2,18 @@
 
 Need to prefix statblock special abilities section with '@' for it to read them. If you do not use @ nothing bad will happen, it just won't know what the special abilities are and will ignore them.
 
+If you make it an @- it will be added as a hindrance, @+ will be added as an edge and just @ will be added to description. 
+
 It does NOT search through your items, only through compendiums, so it might end up creating multiple copies of an item if you never add the new item to your compendium.
 
 Because of the localization, if you try to import English statblocks while you have a Spanish setting activated, then it will fail. Same with Spanish in English settings.
 
 Future Features:
+
+1.2.7 TODO:
+- T(A) to just Toughness
+- @- and @+ to do edges/hindrances
+- 
 
 1.2.0 Release:
 - Gear Parsing for Weapons/Shields/Armor (DONE)

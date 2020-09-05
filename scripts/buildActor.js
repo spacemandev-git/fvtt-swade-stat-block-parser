@@ -24,7 +24,11 @@ export const buildActor = async function (actorName, statblock, actorType) {
 };
 
 function buildActorSpecials(statblock) {
-  let specials = {};
+  let specials = {
+    edges: {},
+    hindrances: {},
+    description: {}
+  };
   let sectionHeader = game.i18n.localize("Statblock_Section.Specials");
   let startIndex = statblock.indexOf(sectionHeader) + sectionHeader.length;
   if (statblock.indexOf(sectionHeader) == -1) {
@@ -41,7 +45,13 @@ function buildActorSpecials(statblock) {
       //it doesn't have a : between ability: description
       specials[el] = "";
     } else {
-      specials[el.split(":")[0].trim()] = el.split(":")[1].trim();
+      if(el.startsWith("+")){
+        specials['edges'][el.split(":")[0].slice(1,).trim()] = el.split(":")[1].trim();
+      } else if(el.startsWith("-")){
+        specials['hindrances'][el.split(":")[0].slice(1,).trim()] = el.split(":")[1].trim();
+      } else {
+        specials['description'][el.split(":")[0].trim()] = el.split(":")[1].trim();
+      }
     }
   });
 

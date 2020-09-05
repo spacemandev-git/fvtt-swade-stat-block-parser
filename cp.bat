@@ -1,0 +1,1 @@
+cpx ./** ../../../modules/fvtt-swade-stat-block-parser

@@ -5,9 +5,8 @@ export const importActorData = function (actor) {
   data.stats = {
     speed: { sprintDie: "1d6", value: actor.pace },
     toughness: {
-      value:
-        actor.toughness.value +
-        (actor.toughness.armor > 0 ? `(${actor.toughness.armor})` : ""),
+      value: actor.toughness.value,
+        // + (actor.toughness.armor > 0 ? `(${actor.toughness.armor})` : ""),
       armor: actor.toughness.armor,
     },
     parry: actor.parry,
@@ -26,9 +25,9 @@ export const importActorData = function (actor) {
 
 function getSpecialsAsHTML(actor) {
   let specials = "";
-  let abilities = Object.keys(actor.specials);
+  let abilities = Object.keys(actor.specials.description);
   abilities.map((abl) => {
-    specials += `<p>${abl} : ${actor.specials[abl]}</p>`;
+    specials += `<p>${abl} : ${actor.specials.description[abl]}</p>`;
   });
   return specials;
 }
