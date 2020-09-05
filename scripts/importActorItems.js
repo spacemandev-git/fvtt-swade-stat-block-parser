@@ -118,17 +118,22 @@ async function importActorHindrances(actor) {
 
   // Add special hindrances
   for(let hindrance of Object.keys(actor.specials.hindrances)){
-    logger(`Creating new Special Ability Hindrance:${hindrance}`);
-    let item = await Item.create({
-      name: hindrance,
-      type: "hindrance",
-      img: "systems/swade/assets/icons/hindrance.svg",
-      data: {
-        description: actor.specials.hindrances[hindrance],
-        major: false,
-      },
-    });
-    hindranceItems.push(item)
+    let item = await searchCompendiumsForItem(hindrance, "hindrance");
+    if(item == null){
+      logger(`Creating new Special Ability Hindrance:${hindrance}`);
+      let nitem = await Item.create({
+        name: hindrance,
+        type: "hindrance",
+        img: "systems/swade/assets/icons/hindrance.svg",
+        data: {
+          description: actor.specials.hindrances[hindrance],
+          major: false,
+        },
+      });
+      hindranceItems.push(nitem)  
+    } else {
+      hindranceItems.push(item)
+    }
   }
 
   return hindranceItems;
@@ -179,16 +184,22 @@ async function importActorEdges(actor) {
   // Add special hindrances
   for(let edge of Object.keys(actor.specials.edges)){
     logger(`Creating new Special Ability Edge:${edge}`);
-    let newItem = await Item.create({
-      name: edge,
-      type: "edge",
-      img: "systems/swade/assets/icons/edge.svg",
-      data: {
-        description: actor.specials.edges[edge],
-        major: false,
-      },
-    });
-    edgeItems.push(newItem);
+    let item = await searchCompendiumsForItem(edge, "edge");
+    if(item == null){
+      let newItem = await Item.create({
+        name: edge,
+        type: "edge",
+        img: "systems/swade/assets/icons/edge.svg",
+        data: {
+          description: actor.specials.edges[edge],
+          major: false,
+        },
+      });
+      edgeItems.push(newItem);
+    } else {
+      edgeItems.push(item);
+    }
+
   }
 
   return edgeItems;

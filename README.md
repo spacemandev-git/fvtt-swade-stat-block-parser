@@ -10,6 +10,9 @@ Because of the localization, if you try to import English statblocks while you h
 
 Future Features:
 
+1.2.9:
+- @- and @+ looks in compendiums but doesn't write to compendiums
+
 1.2.8:
 - @- and @+ don't look in compendiums or add to compendiums, they are purely new items every time
 

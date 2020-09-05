@@ -3,7 +3,7 @@
   "title": "SWADE Statblock Importer",
   "description": "Copy+Paste Beastiary statblocks from any SWADE book, get it turned into an entity. 60% of the time it works every time",
   "systems": ["swade"],
-  "version": "1.2.8",
+  "version": "1.2.9",
   "author": "spacemandev",
   "scripts": [],
   "esmodules": ["scripts/statblock-importer.js"],
@@ -23,6 +23,6 @@
   "url": "https://github.com/spacemandev-git/fvtt-swade-stat-block-parser",
   "minimumCoreVersion": "0.6.0",
   "compatibleCoreVersion": "0.7.2",
-  "manifest": "https://github.com/spacemandev-git/fvtt-swade-stat-block-parser/releases/download/1.2.8/module.json",
-  "download": "https://github.com/spacemandev-git/fvtt-swade-stat-block-parser/releases/download/1.2.8/module.zip"
+  "manifest": "https://github.com/spacemandev-git/fvtt-swade-stat-block-parser/releases/download/1.2.9/module.json",
+  "download": "https://github.com/spacemandev-git/fvtt-swade-stat-block-parser/releases/download/1.2.9/module.zip"
 }
