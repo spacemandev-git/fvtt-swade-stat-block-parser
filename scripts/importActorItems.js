@@ -118,23 +118,17 @@ async function importActorHindrances(actor) {
 
   // Add special hindrances
   for(let hindrance of Object.keys(actor.specials.hindrances)){
-    let item = await searchCompendiumsForItem(hindrance, "hindrance");
-    if(item == null){
-      logger(`Creating new Hindrance:${hindrance}`);
-      let newItem = await Item.create({
-        name: hindrance,
-        type: "hindrance",
-        img: "systems/swade/assets/icons/hindrance.svg",
-        data: {
-          description: actor.specials.hindrances[hindrance],
-          major: false,
-        },
-      });
-      await addToStatblockCompendium(newItem, "hindrance");
-      hindranceItems.push(newItem);
-    } else {
-      hindranceItems.push(item)
-    }
+    logger(`Creating new Special Ability Hindrance:${hindrance}`);
+    let item = await Item.create({
+      name: hindrance,
+      type: "hindrance",
+      img: "systems/swade/assets/icons/hindrance.svg",
+      data: {
+        description: actor.specials.hindrances[hindrance],
+        major: false,
+      },
+    });
+    hindranceItems.push(item)
   }
 
   return hindranceItems;
@@ -184,23 +178,17 @@ async function importActorEdges(actor) {
   }
   // Add special hindrances
   for(let edge of Object.keys(actor.specials.edges)){
-    let item = await searchCompendiumsForItem(edge, "hindrance");
-    if(item == null){
-      logger(`Creating new Edge:${edge}`);
-      let newItem = await Item.create({
-        name: edge,
-        type: "edge",
-        img: "systems/swade/assets/icons/edge.svg",
-        data: {
-          description: actor.specials.edges[edge],
-          major: false,
-        },
-      });
-      await addToStatblockCompendium(newItem, "edge");
-      edgeItems.push(newItem);
-    } else {
-      edgeItems.push(item)
-    }
+    logger(`Creating new Special Ability Edge:${edge}`);
+    let newItem = await Item.create({
+      name: edge,
+      type: "edge",
+      img: "systems/swade/assets/icons/edge.svg",
+      data: {
+        description: actor.specials.edges[edge],
+        major: false,
+      },
+    });
+    edgeItems.push(newItem);
   }
 
   return edgeItems;

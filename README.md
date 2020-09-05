@@ -10,7 +10,10 @@ Because of the localization, if you try to import English statblocks while you h
 
 Future Features:
 
-1.2.7 TODO:
+1.2.8:
+- @- and @+ don't look in compendiums or add to compendiums, they are purely new items every time
+
+1.2.7:
 - T(A) to just Toughness
 - @- and @+ to do edges/hindrances
 - 
